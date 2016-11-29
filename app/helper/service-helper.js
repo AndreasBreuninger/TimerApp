@@ -13,8 +13,7 @@ function setupAlarm(context) {
 }
 
 function set(context) {
-
-var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+    var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
     var alarmIntent = getStartPendingIntent(context);
     alarmManager.set(android.app.AlarmManager.RTC_WAKEUP,
         10000,

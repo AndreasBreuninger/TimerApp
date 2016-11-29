@@ -1,5 +1,6 @@
 android.app.IntentService.extend("com.tns.notifications.NotificationIntentService", {
-    onHandleIntent: function (intent) {
+
+    onHandleIntent: function(intent) {
         var action = intent.getAction();
         if ("ACTION_START" == action) {
             processStartNotification();
@@ -7,6 +8,7 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
 
         android.support.v4.content.WakefulBroadcastReceiver.completeWakefulIntent(intent);
     }
+    
 });
 
 function processStartNotification() {
@@ -23,8 +25,8 @@ function processStartNotification() {
         .setVibrate([100, 200, 100])
         .setSmallIcon(android.R.drawable.btn_star_big_on);
 
-        // will open main NativeScript activity when the notification is pressed
-    var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class); 
+    // will open main NativeScript activity when the notification is pressed
+    var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class);
     var pendingIntent = android.app.PendingIntent.getActivity(context,
         1,
         mainIntent,
@@ -37,7 +39,7 @@ function processStartNotification() {
 }
 
 function getDeleteIntent(context) {
-        var intent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationEventReceiver.class);
-        intent.setAction("ACTION_DELETE_NOTIFICATION");
-        return android.app.PendingIntent.getBroadcast(context, 0, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+    var intent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationEventReceiver.class);
+    intent.setAction("ACTION_DELETE_NOTIFICATION");
+    return android.app.PendingIntent.getBroadcast(context, 0, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 }
