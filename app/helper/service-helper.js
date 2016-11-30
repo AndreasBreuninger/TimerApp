@@ -20,9 +20,39 @@ function set(context) {
         alarmIntent);
 }
 
+function setAlarmClock(context) {
+
+    // RQS_1 = 1
+
+    // var intent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationServiceStarterReceiver.class);
+    // var pendingIntent = android.app.PendingIntent.getBroadcast(
+    //     context, 1, intent, 0);
+
+
+    // var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+    // alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, 10000,
+    //     pendingIntent);
+
+
+
+
+    var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+    var alarmIntent = getStartPendingIntent(context);
+    // var clockInfo = new android.app.AlarmManager.AlarmClockInfo(10000,alarmIntent);
+
+    alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP,
+        10000,
+        alarmIntent);
+
+
+    // alarmManager.setAlarmClock(clockInfo,
+    //     alarmIntent);
+}
+
 
 function cancelAlarm(context) { }
 
 
 module.exports.setupAlarm = setupAlarm;
 module.exports.set = set;
+module.exports.setAlarmClock = setAlarmClock;

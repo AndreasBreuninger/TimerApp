@@ -2,6 +2,6 @@ android.content.BroadcastReceiver.extend("com.tns.broadcastreceivers.Notificatio
     onReceive: function() {
         var helper = require("../helper/service-helper");
         var utils = require("utils/utils");
-        helper.setupAlarm(utils.ad.getApplicationContext());
+        helper.setAlarmClock(utils.ad.getApplicationContext());
     }
 });

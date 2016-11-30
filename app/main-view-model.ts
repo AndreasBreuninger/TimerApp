@@ -13,12 +13,8 @@ export class MainViewModel extends Observable {
         super();
     }
 
-
-
-
-
     public setReminder() {
-       services.set(utils.ad.getApplicationContext());
+       services.setAlarmClock(utils.ad.getApplicationContext());
     }
 
 

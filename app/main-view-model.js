@@ -11,7 +11,7 @@ var MainViewModel = (function (_super) {
         _super.call(this);
     }
     MainViewModel.prototype.setReminder = function () {
-        services.set(utils.ad.getApplicationContext());
+        services.setAlarmClock(utils.ad.getApplicationContext());
     };
     return MainViewModel;
 }(observable_1.Observable));
