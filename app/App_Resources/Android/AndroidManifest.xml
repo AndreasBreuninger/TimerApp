@@ -45,6 +45,11 @@
 		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
 
+		<activity
+			android:name="com.tns.activities.NotificationActivity"
+			android:label="@string/title_activity_kimera"
+			android:configChanges="keyboardHidden|orientation|screenSize"/>
+
     <service  android:name="com.tns.notifications.NotificationIntentService"
             android:enabled="true"
             android:exported="false" />

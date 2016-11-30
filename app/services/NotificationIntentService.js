@@ -17,26 +17,15 @@ function processStartNotification() {
     var utils = require("utils/utils");
     var context = utils.ad.getApplicationContext();
 
-    var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class);
-    var pendingIntent = android.app.PendingIntent.getActivity(context,
-        1,
-        mainIntent,
-        android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 
-    // var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+    // var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class);
+    var mainIntent = new android.content.Intent(context, com.tns.activities.NotificationActivity.class);
 
-    // alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP,
-    //     1,
-    //     pendingIntent);
+
+    mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(mainIntent);
 
     vibrator.vibration(500);
-
-    // var pattern = [0.0, 250.0, 200.0, 250.0, 200.0, 250.0, 200.0, 250.0, 200.0,
-    //     250.0, 200.0, 250.0, 200.0, 250.0, 200.0];
-
-    // var vibrator = context.getSystemService(android.content.Context.VIBRATOR_SERVICE);
-    // vibrator.vibrate(pattern, -1);// No repetition
-
 
     var ringT = android.media.RingtoneManager.getDefaultUri(4);
     var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
@@ -44,33 +33,6 @@ function processStartNotification() {
     ringTone.play();
 
 }
-
-// function processStartNotification() {
-//     // Do something. For example, fetch fresh data from backend to create a rich notification?
-
-//     var utils = require("utils/utils");
-//     var context = utils.ad.getApplicationContext();
-
-//     var builder = new android.app.Notification.Builder(context);
-//     builder.setContentTitle("Scheduled Notification")
-//         .setAutoCancel(true)
-//         .setColor(android.R.color.holo_purple)//getResources().getColor(R.color.colorAccent))
-//         .setContentText("This notification has been triggered by Notification Service")
-//         .setVibrate([100, 200, 100])
-//         .setSmallIcon(android.R.drawable.btn_star_big_on);
-
-//     // will open main NativeScript activity when the notification is pressed
-//     var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class);
-//     var pendingIntent = android.app.PendingIntent.getActivity(context,
-//         1,
-//         mainIntent,
-//         android.app.PendingIntent.FLAG_UPDATE_CURRENT);
-//     builder.setContentIntent(pendingIntent);
-//     builder.setDeleteIntent(getDeleteIntent(context));
-
-//     var manager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-//     manager.notify(1, builder.build());
-// }
 
 function getDeleteIntent(context) {
     var intent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationEventReceiver.class);

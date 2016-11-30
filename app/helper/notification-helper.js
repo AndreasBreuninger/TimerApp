@@ -3,7 +3,7 @@ function getStartPendingIntent(context) {
     alarmIntent.setAction("ACTION_START_NOTIFICATION_SERVICE");
     return android.app.PendingIntent.getBroadcast(context, 0, alarmIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 }
-function setupAlarm(context) {
+function setRepeating(context) {
     var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
     var alarmIntent = getStartPendingIntent(context);
     alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP,
@@ -22,31 +22,11 @@ function set(context) {
 
 function setAlarmClock(context) {
 
-    // RQS_1 = 1
-
-    // var intent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationServiceStarterReceiver.class);
-    // var pendingIntent = android.app.PendingIntent.getBroadcast(
-    //     context, 1, intent, 0);
-
-
-    // var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
-    // alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, 10000,
-    //     pendingIntent);
-
-
-
-
     var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
     var alarmIntent = getStartPendingIntent(context);
-    // var clockInfo = new android.app.AlarmManager.AlarmClockInfo(10000,alarmIntent);
-
     alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP,
         10000,
         alarmIntent);
-
-
-    // alarmManager.setAlarmClock(clockInfo,
-    //     alarmIntent);
 }
 
 function ringtone(context) {
@@ -64,11 +44,10 @@ function ringtone(context) {
     ringTone.play();
 }
 
-
 function cancelAlarm(context) { }
 
 
-module.exports.setupAlarm = setupAlarm;
+module.exports.setRepeating = setRepeating;
 module.exports.set = set;
 module.exports.setAlarmClock = setAlarmClock;
 module.exports.ringtone = ringtone;
