@@ -4,7 +4,7 @@ import { Observable } from 'data/observable';
 // var dialogs = require("ui/dialogs");
 
 var utils = require("utils/utils");
-var services = require("./helper/service-helper");
+var services = require("./helper/notification-helper");
 
 export class MainViewModel extends Observable {
 

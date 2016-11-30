@@ -1,6 +1,6 @@
 android.app.IntentService.extend("com.tns.notifications.NotificationIntentService", {
 
-    onHandleIntent: function(intent) {
+    onHandleIntent: function (intent) {
         var action = intent.getAction();
         if ("ACTION_START" == action) {
             processStartNotification();
@@ -13,6 +13,7 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
 
 function processStartNotification() {
 
+    var vibrator = require("./VibratorService");
     var utils = require("utils/utils");
     var context = utils.ad.getApplicationContext();
 
@@ -22,11 +23,26 @@ function processStartNotification() {
         mainIntent,
         android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 
-    var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
-    
-    alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP,
-        1,
-        pendingIntent);
+    // var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+
+    // alarmManager.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP,
+    //     1,
+    //     pendingIntent);
+
+    vibrator.vibration(500);
+
+    // var pattern = [0.0, 250.0, 200.0, 250.0, 200.0, 250.0, 200.0, 250.0, 200.0,
+    //     250.0, 200.0, 250.0, 200.0, 250.0, 200.0];
+
+    // var vibrator = context.getSystemService(android.content.Context.VIBRATOR_SERVICE);
+    // vibrator.vibrate(pattern, -1);// No repetition
+
+
+    var ringT = android.media.RingtoneManager.getDefaultUri(4);
+    var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
+
+    ringTone.play();
+
 }
 
 // function processStartNotification() {

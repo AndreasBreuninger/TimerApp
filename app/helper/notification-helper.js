@@ -49,6 +49,21 @@ function setAlarmClock(context) {
     //     alarmIntent);
 }
 
+function ringtone(context) {
+
+    var pattern = [0, 250, 200, 250, 200, 250, 200, 250, 200,
+        250, 200, 250, 200, 250, 200];
+
+    var vibrator = context.getSystemService(android.content.Context.VIBRATOR_SERVICE);
+    vibrator.vibrate(pattern, -1);// No repetition
+
+
+    var ringT = android.media.RingtoneManager.getDefaultUri(4);
+    var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
+
+    ringTone.play();
+}
+
 
 function cancelAlarm(context) { }
 
@@ -56,3 +71,4 @@ function cancelAlarm(context) { }
 module.exports.setupAlarm = setupAlarm;
 module.exports.set = set;
 module.exports.setAlarmClock = setAlarmClock;
+module.exports.ringtone = ringtone;
