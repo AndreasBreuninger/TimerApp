@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 
 import { NativeScriptRouterModule } from 'nativescript-angular/router';
 
-import { HomeComponent } from './home/home.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   imports: [
     NativeScriptRouterModule.forRoot([
-      { path: '', pathMatch: 'full', component: HomeComponent }
+      { path: '', pathMatch: 'full', component: TimerComponent }
     ])
   ],
   exports: [NativeScriptRouterModule]

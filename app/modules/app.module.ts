@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { NativeScriptModule } from 'nativescript-angular/platform';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { TimerComponent } from './timer/timer.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    TimerComponent
   ],
   imports: [
     NativeScriptModule,
