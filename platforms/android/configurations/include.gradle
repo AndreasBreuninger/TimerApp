@@ -1,4 +1,4 @@
 
 android {
-    flavorDimensions "nativescriptlocalnotifications", "tnscoremoduleswidgets"
+    flavorDimensions "tnscoremoduleswidgets"
 }

@@ -2,7 +2,6 @@ var dependencyObservable = require("ui/core/dependency-observable");
 var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var imageSource = require("image-source");
-var imageAssetModule = require("image-asset");
 var enums = require("ui/enums");
 var platform = require("platform");
 var utils = require("utils/utils");
@@ -68,16 +67,6 @@ var Image = (function (_super) {
         },
         set: function (value) {
             this._setValue(Image.loadModeProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Image.prototype, "tintColor", {
-        get: function () {
-            return this.style.tintColor;
-        },
-        set: function (value) {
-            this.style.tintColor = value;
         },
         enumerable: true,
         configurable: true
@@ -149,12 +138,6 @@ var Image = (function (_super) {
         else if (value instanceof imageSource.ImageSource) {
             this.imageSource = value;
             this._setValue(Image.isLoadingProperty, false);
-        }
-        else if (value instanceof imageAssetModule.ImageAsset) {
-            imageSource.fromAsset(value).then(function (result) {
-                _this.imageSource = result;
-                _this._setValue(Image.isLoadingProperty, false);
-            });
         }
         else {
             this.imageSource = imageSource.fromNativeSource(value);

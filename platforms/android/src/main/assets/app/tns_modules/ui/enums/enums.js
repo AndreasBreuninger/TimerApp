@@ -139,7 +139,6 @@ var ImageFormat;
 (function (ImageFormat) {
     ImageFormat.png = "png";
     ImageFormat.jpeg = "jpeg";
-    ImageFormat.jpg = "jpg";
 })(ImageFormat = exports.ImageFormat || (exports.ImageFormat = {}));
 var FontStyle;
 (function (FontStyle) {

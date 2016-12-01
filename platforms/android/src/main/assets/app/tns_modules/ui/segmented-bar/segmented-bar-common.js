@@ -1,6 +1,7 @@
 var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var dependencyObservable = require("ui/core/dependency-observable");
+var color = require("color");
 var bindable = require("ui/core/bindable");
 var types;
 function ensureTypes() {
@@ -85,10 +86,10 @@ var SegmentedBar = (function (_super) {
     });
     Object.defineProperty(SegmentedBar.prototype, "selectedBackgroundColor", {
         get: function () {
-            return this.style.selectedBackgroundColor;
+            return this._getValue(SegmentedBar.selectedBackgroundColorProperty);
         },
         set: function (value) {
-            this.style.selectedBackgroundColor = value;
+            this._setValue(SegmentedBar.selectedBackgroundColorProperty, value instanceof color.Color ? value : new color.Color(value));
         },
         enumerable: true,
         configurable: true
@@ -131,6 +132,7 @@ var SegmentedBar = (function (_super) {
         }
         return idx;
     };
+    SegmentedBar.selectedBackgroundColorProperty = new dependencyObservable.Property("selectedBackgroundColor", "SegmentedBar", new proxy.PropertyMetadata(undefined));
     SegmentedBar.selectedIndexProperty = new dependencyObservable.Property("selectedIndex", "SegmentedBar", new proxy.PropertyMetadata(undefined));
     SegmentedBar.itemsProperty = new dependencyObservable.Property("items", "SegmentedBar", new proxy.PropertyMetadata(undefined));
     SegmentedBar.selectedIndexChangedEvent = "selectedIndexChanged";

@@ -62,6 +62,9 @@ var SwitchStyler = (function () {
     SwitchStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SwitchStyler.setColorProperty, SwitchStyler.resetColorProperty), "Switch");
         style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(SwitchStyler.setBackgroundAndBorderProperty, SwitchStyler.resetBackgroundAndBorderProperty), "Switch");
+        style.registerHandler(style.borderWidthProperty, style.ignorePropertyHandler, "Switch");
+        style.registerHandler(style.borderColorProperty, style.ignorePropertyHandler, "Switch");
+        style.registerHandler(style.borderRadiusProperty, style.ignorePropertyHandler, "Switch");
         style.registerHandler(style.backgroundInternalProperty, style.ignorePropertyHandler, "Switch");
     };
     return SwitchStyler;
