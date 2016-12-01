@@ -3,20 +3,24 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class HomeComponentViewModel {
 
-  counter: number = 16;
 
-  constructor() { }
+  // public myItems: Array<DataItem>;
+  // private counter: number;
 
-  get message(): string {
-    if (this.counter > 0) {
-      return this.counter + ' taps left';
-    } else {
-      return 'Hoorraaay! \nYou are ready to start building!';
-    }
+  constructor() {
+    // this.myItems = [];
+    // this.counter = 0;
+    // for (var i = 0; i < 50; i++) {
+    //   this.myItems.push(new DataItem(i, "data item " + i));
+    //   this.counter = i;
+    // }
   }
 
-  onTap() {
-    this.counter--;
-    // log("okay");
-  }
+  // public onItemTap(args) {
+  //   console.log("------------------------ ItemTapped: " + args.index);
+  // }
 }
+
+// class DataItem {
+//     constructor(public id: number, public name: string) { }
+// }
