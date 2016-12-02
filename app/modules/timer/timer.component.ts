@@ -1,5 +1,6 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TimerService } from '../../services/timer.service';
+var helper = require('../../broadcast/helper/notification-helper')
 
 @Component({
   selector: 'home',
@@ -13,5 +14,12 @@ export class TimerComponent {
 
   constructor(public ts: TimerService) {
 
-  } 
+  }
+
+  public onTap() {
+
+    //ToDo get context and pass to function
+
+    helper.setAlarmClock();    
+  }
 }

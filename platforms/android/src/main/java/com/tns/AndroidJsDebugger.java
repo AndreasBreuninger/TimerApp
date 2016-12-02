@@ -69,12 +69,11 @@ public class AndroidJsDebugger implements Debugger
             this.running = false;
         }
 
-        public void stopRunning()
+        public void stopResponseHandler()
 		{
-			running = false;
 			this.responseHandler.stop();
-		}
-
+		}        
+        
         public void run()
         {
         	Closeable requestHandlerCloseable = new Closeable()
@@ -123,9 +122,9 @@ public class AndroidJsDebugger implements Debugger
 	    					
 	    					this.responseHandler.stop();
 	    					socket.close();
-
-                            AndroidJsDebugger.this.debugContext.dbgMessages.clear();
-                            AndroidJsDebugger.this.debugContext.dbgMessages.addAll(AndroidJsDebugger.this.debugContext.compileMessages);
+	    					
+	    					AndroidJsDebugger.this.debugContext.dbgMessages.clear();
+	    					AndroidJsDebugger.this.debugContext.dbgMessages.addAll(AndroidJsDebugger.this.debugContext.compileMessages);
 	    				}
 	    				catch (IOException e)
 	    				{
@@ -229,9 +228,7 @@ public class AndroidJsDebugger implements Debugger
 							state = State.Header;
 							headers.clear();
 
-							if (!message.equals("FLUSH BUFFERS")) {
-								AndroidJsDebugger.this.debugContext.sendMessage(message);
-							}
+							AndroidJsDebugger.this.debugContext.sendMessage(message);
 						}
 						else
 						{
@@ -370,12 +367,6 @@ public class AndroidJsDebugger implements Debugger
 	public void enableAgent()
 	{
 		logger.write("Enabling NativeScript Debugger Agent");
-
-		if (debugServerThread == null)
-		{
-			debugServerThread = new DebugLocalServerSocketThread(context.getPackageName() + "-debug");
-			debugServerThread.start();
-		}
 	}
 
 	public void disableAgent()
@@ -385,8 +376,7 @@ public class AndroidJsDebugger implements Debugger
 		
 		AndroidJsDebugger.this.debugContext.sendMessage(message);
 		
-		debugServerThread.stopRunning();
-        debugServerThread = null;
+		debugServerThread.stopResponseHandler();
 	}
 
 	private void registerEnableDisableDebuggerReceiver(Handler handler)
@@ -427,50 +417,35 @@ public class AndroidJsDebugger implements Debugger
 			}
 			catch (IOException e)
 			{
+				Log.e("TNS", "Debug break temp file can not be marked as used. Debug sessions may not work correctly. file: " + debugBreakFile.getAbsolutePath());
 				e.printStackTrace();
 			}
+			
 			return true;
 		}
+		
 		return false;
 	}
 
-    private void setDebuggerStartedFlag()
-    {
-        File debugBreakFile = new File("/data/local/tmp", context.getPackageName() + "-debugger-started");
-        if (debugBreakFile.exists() && !debugBreakFile.isDirectory() && debugBreakFile.length() == 0)
-        {
-            try
-            {
-                java.io.FileWriter fileWriter = new java.io.FileWriter(debugBreakFile);
-                fileWriter.write("started");
-                fileWriter.close();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
 	public void start()
 	{
-		AndroidJsDebugger.this.debugContext.enableAgent();
-
+		debugServerThread = new DebugLocalServerSocketThread(context.getPackageName() + "-debug");
+		debugServerThread.start();
+		
 		handlerThread = new HandlerThread("debugAgentBroadCastReceiverHandler");
 		handlerThread.start();
 		Handler handler = new Handler(handlerThread.getLooper());
-
+		
 		this.registerEnableDisableDebuggerReceiver(handler);
+
+		AndroidJsDebugger.this.debugContext.enableAgent();
 
 		boolean shouldDebugBreak = getDebugBreakFlagAndClearIt();
 		if (shouldDebugBreak)
 		{
 			AndroidJsDebugger.this.debugContext.debugBreak();
 		}
-
-        setDebuggerStartedFlag();
 	}
-
 	
 	public static boolean isDebuggableApp(Context context)
 	{

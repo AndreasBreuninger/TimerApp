@@ -1,13 +1,17 @@
 /*
- *	Code takes care of static analysis and generates "out_parsed_typescript.txt"
- *	The output file consists of information about custom and common bindings that should be generated.
- */
+*	Code takes care of static analysis and generates "out_parsed_typescript.txt"
+*	The output file consists of information about custom and common bindings that should be generated.
+* 	
+*	test command:
+*		node transpiled_ts_parser.js "input\dir\path" "output\file\path" "interface\names\file\path"
+*		node transpiled_ts_parser.js "D:\work\android-static-binding-generator\project\input_parced_typescript" "D:\work\android-static-binding-generator\project\out\out_parsed_typescript.txt" "D:\work\android-static-binding-generator\project\interface-name-generator\interfaces-names.txt"
+*/
 
 ///////////////// CONFIGURATION /////////////////
 
 var disableLogger = true;
 if (process.env.AST_PARSER_DISABLE_LOGGING && process.env.AST_PARSER_DISABLE_LOGGING.trim() === "true") {
-	disableLogger = false;
+	disableLogger = true;
 }
 
 loggingSettings = {
@@ -37,7 +41,8 @@ var fs = require("fs"),
 	inputDir = "input_parced_typescript", // default input folder
 	interfacesNamesFilePath = "../interfaces-names.txt", //default interace_names file path
 	interfaceNames = [],
-	inputFiles = [];
+	rootTraversed = false,
+	explicitTraversalKey = "recursive-static-bindings";
 
 
 //env variables
@@ -55,64 +60,39 @@ if (process.env.AST_PARSER_INTERFACE_FILE_PATH) {
 //console variables have priority
 if (arguments && arguments.length >= 3) {
 	inputDir = arguments[2]
-	// console.log("inputDir: " + inputDir)
+	console.log("inputDir: " + inputDir)
 }
 if (arguments && arguments.length >= 4) {
 	outFile = arguments[3]
-	// console.log("outFile: " + outFile)
+	console.log("outFile: " + outFile)
 }
 if (arguments && arguments.length >= 5) {
 	interfacesNamesFilePath = arguments[4]
-	// console.log("interfacesNamesFilePath: " + interfacesNamesFilePath)
+	console.log("interface names path: " + interfacesNamesFilePath)
 }
-if (arguments && arguments.length >= 6) {
-	inputFilesPath = arguments[5]
-}
-
 
 /////////////// PREPARATION ////////////////
-// fileHelpers.createFile(outFile)
+fileHelpers.createFile(outFile)
 
 /////////////// EXECUTE ////////////////
-var tsHelpersFilePath = path.join(inputDir, "..", "internal", "ts_helpers.js");
 
 // ENTRY POINT!
-readLinesFromFile(inputFilesPath, inputFiles, tsHelpersFilePath)
-	.then(getFileAst)
+var tsHelpersFilePath = path.join(inputDir, "..", "internal", "ts_helpers.js");
+getFileAst(tsHelpersFilePath)
 	.then(getExtendsLineColumn) //config
 	.then(readInterfaceNames) //config
 	.then(traverseAndAnalyseFilesDir) //start
 	.catch(exceptionHandler);
 
-/*
-*	Get's the javascript files that need traversing
-*/
-function readLinesFromFile(filePath, outArr, resolveParameter) {
-	return new Promise(function (resolve, reject) {
-		new lazy(fs.createReadStream(filePath))
-			.lines
-			.forEach(function (line) {
-				outArr.push(line.toString().trim());
-			}).on('pipe', function (err) {
-				if (err) {
-					return reject(err);
-				}
-
-				console.log("finished with reading lines with js files");
-
-				return resolve(resolveParameter)
-			});
-	});
-}
 
 
 /*
 *	Get line and column of the __extends function from ts_helpers file
 */
-function getFileAst(tsHelpersFilePath) {	
+function getFileAst(tsHelpersFilePath) {
 	return new Promise(function (resolve, reject) {
-		fs.readFile(tsHelpersFilePath, 'utf8', function(err, fileContent) {
-			if (err) {				
+		fs. readFile(tsHelpersFilePath, 'utf8', function(err, fileContent) {
+			if (err) {
 				logger.warn("+DIDN'T parse ast from file " + tsHelpersFilePath);
 				return reject(err);
 			}
@@ -122,7 +102,7 @@ function getFileAst(tsHelpersFilePath) {
 			var ast = babelParser.parse(fileContent, {
 				minify: false,
 				plugins: ["decorators"]
-			});			
+			});
 
 			return resolve(ast);
 		});
@@ -152,7 +132,7 @@ function getExtendsLineColumn(ast) {
 		})
 
 		es5_visitors.setLineAndColumn(tsHelpersInfo);
-		return resolve(true);
+		resolve(true);
 	});
 };
 
@@ -168,12 +148,11 @@ function readInterfaceNames(data, err) {
 				interfaceNames.push(line.toString());
 			}).on('pipe', function (err) {
 				if (err) {
-					return reject(false);
+					reject(false);
 				}
 
 				inputDir = path.normalize(inputDir);
-
-				return resolve(inputDir);
+				resolve(inputDir);
 			});
 	})
 }
@@ -182,38 +161,79 @@ function readInterfaceNames(data, err) {
 *	Traverses a given input directory and attempts to visit every ".js" file.
 *	It passes each found file down the line.
 */
-function traverseAndAnalyseFilesDir(inputDir, err) {
+function traverseAndAnalyseFilesDir(inputDir) {
 	if (!fs.existsSync(inputDir)) {
 		throw "The input dir: " + inputDir + " does not exist!";
 	}
 
-	traverseFiles(inputFiles);
+	traverseDirectory(inputDir, false/*traverseExplicitly*/);
 }
 
-function traverseFiles(filesToTraverse) {
 
-	var filesLength = filesToTraverse.length;
-	for(var i = 0; i < filesLength; i += 1) {
+function traverseDirectory(dir, traverseExplicitly) {
+	// list all files in directory
 
-		var fp = filesToTraverse[i];
-		logger.info("Visiting JavaScript file: " + fp);
+    fs.readdir(dir, function (err, files) {
+		var pJsonFile;
 
-		readFile(fp)
-		.then(astFromFileContent)
-		// .then(writeToFile)
-		.then(visitAst)
-		.then(writeToFile)
-		.catch(exceptionHandler)
-	}
+		if (!traverseExplicitly) {
+			if (rootTraversed || dir !== inputDir) {
+				for (var i = 0; i < files.length; i++) {
+					if (files[i] === "package.json") {
+						pJsonFile = true;
+						break;
+					}
+				}
+
+				if (pJsonFile) {
+					var fullPJsonPath = path.join(dir, "package.json");
+					var pjson = require(fullPJsonPath);
+					if (!pjson.nativescript) {
+
+						logger.info("Skipping traversal of folder " + dir);
+						return;
+					} else {
+						if (pjson.nativescript[explicitTraversalKey]) {
+							logger.info("Folder will be traversed completely: " + dir);
+							traverseExplicitly = true;
+						}
+					}
+				}
+			} else {
+				rootTraversed = true;
+			}
+		}
+
+        for (var i = 0; i < files.length; i += 1) {
+            var file = path.join(dir, files[i]);
+
+			if (file.substring(file.length - 3, file.length) === '.js') {
+				logger.info("Visiting JavaScript file: " + file);
+				readFile(file)
+					.then(astFromFileContent)
+					// .then(writeToFile)
+					.then(visitAst)
+					.then(writeToFile)
+					.catch(exceptionHandler)
+			}
+
+            var isDir = fs.statSync(file).isDirectory();
+
+            if (isDir) {
+                traverseDirectory(file, traverseExplicitly);
+            }
+        }
+    });
 }
 
 /*
 *	Gets the file content as text and passes it down the line.
 */
 var readFile = function (filePath, err) {
-	
 	return new Promise(function (resolve, reject) {
+
 		fs.readFile(filePath, function (err, data) {
+
 			if (err) {
 				logger.warn("+DIDN'T get content of file: " + filePath);
 				return reject(err);
@@ -233,7 +253,8 @@ var readFile = function (filePath, err) {
 *	Get's the AST (https://en.wikipedia.org/wiki/Abstract_syntax_tree) from the file content and passes it down the line.
 */
 var astFromFileContent = function (data, err) {
-	return new Promise(function (resolve, reject) {		
+	return new Promise(function (resolve, reject) {
+
 		if (err) {
 			logger.warn("+DIDN'T parse ast from file!");
 			return reject(err);
@@ -289,9 +310,12 @@ var visitAst = function (data, err) {
 	});
 }
 
-var writeToFile = function (data, err) {	
+var writeToFile = function (data, err) {
+
 	return new Promise(function (resolve, reject) {
+
 		if (data.trim() != "") {
+
 			// fs.appendFile(outFile, stringify(data), function (writeFileError) {
 			fs.appendFile(outFile, data + eol, function (writeFileError) {
 				if (err) {
@@ -307,9 +331,6 @@ var writeToFile = function (data, err) {
 				return resolve(data);
 
 			});
-		}
-		else {
-			logger.info("No need to generate anything. (UP-TO-DATE)");
 		}
 	});
 }
