@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TimerService } from '../../services/timer.service';
-var helper = require('../../broadcast/helper/notification-helper')
+var helper = require('../../broadcast/helper/notification-helper');
+var utils = require("utils/utils");
 
 @Component({
   selector: 'home',
@@ -17,9 +18,12 @@ export class TimerComponent {
   }
 
   public onTap() {
+    console.log("onTap");
+    var ctx = utils.ad.getApplicationContext();
 
-    //ToDo get context and pass to function
+    console.log("got ctx");
 
-    helper.setAlarmClock();    
+    helper.setAlarmClock(ctx);
+
   }
 }
