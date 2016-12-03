@@ -24,6 +24,7 @@
         "url": "git://github.com/NativeScript/template-hello-world-ng"
     },
     "homepage": "https://github.com/NativeScript/template-hello-world-ng",
+    "publisher": "Andreas Breuninger",
     "android": {
         "v8Flags": "--expose_gc"
     },

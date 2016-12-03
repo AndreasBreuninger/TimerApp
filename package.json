@@ -3,6 +3,9 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "readme": "NativeScript Application",
   "repository": "<fill-your-repository-here>",
+  "publisher": "Andreas Breuninger",
+  "name": "Andreas Breuninger",
+  "version":"1.0.0.0",
   "nativescript": {
     "id": "io.ngxp.nsngwebstarter",
     "tns-ios": {
