@@ -7,7 +7,9 @@ import { TimerComponent } from './timer/timer.component';
 @NgModule({
   imports: [
     NativeScriptRouterModule.forRoot([
-      { path: '', pathMatch: 'full', component: TimerComponent }
+      { path: '', pathMatch: 'full', component: TimerComponent },
+      // { path: '/launch', pathMatch: 'full', component: TimerComponent },
+      
     ])
   ],
   exports: [NativeScriptRouterModule]

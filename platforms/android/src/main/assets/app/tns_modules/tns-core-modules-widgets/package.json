@@ -10,7 +10,7 @@
         "spec": "2.3.0",
         "type": "version"
       },
-      "c:\\git\\TimerAppDev\\node_modules\\tns-core-modules"
+      "c:\\git\\TimerApp\\node_modules\\tns-core-modules"
     ]
   ],
   "_from": "tns-core-modules-widgets@2.3.0",
@@ -44,7 +44,7 @@
   "_shasum": "19d902b6c77e0ef47687b9098b595a6b527db447",
   "_shrinkwrap": null,
   "_spec": "tns-core-modules-widgets@2.3.0",
-  "_where": "c:\\git\\TimerAppDev\\node_modules\\tns-core-modules",
+  "_where": "c:\\git\\TimerApp\\node_modules\\tns-core-modules",
   "author": {
     "name": "NativeScript team"
   },

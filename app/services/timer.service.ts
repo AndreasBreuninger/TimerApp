@@ -1,26 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 
 @Injectable()
 export class TimerService {
 
+  private _timerItem: TimerItem;
 
-  // public myItems: Array<DataItem>;
-  // private counter: number;
-
-  constructor() {
-    // this.myItems = [];
-    // this.counter = 0;
-    // for (var i = 0; i < 50; i++) {
-    //   this.myItems.push(new DataItem(i, "data item " + i));
-    //   this.counter = i;
-    // }
+  // @Input()
+  public get timerItem(): TimerItem {
+    return this._timerItem;
+  }
+  public set timerItem(v: TimerItem) {
+    this._timerItem = v;
   }
 
-  // public onItemTap(args) {
-  //   console.log("------------------------ ItemTapped: " + args.index);
+
+  constructor() {
+    this._timerItem = new TimerItem(1, "Hallo Welt");
+  }
+
+  public createTimer(interval: number, msg: string) {
+
+    this._timerItem.message = msg;
+    this._timerItem.upcoming = interval * 60 * 1000;
+
+  }
+
+  // public setMessage(msg: string) {
+
+
   // }
+
+  // public setInterval(minutes: number) {
+
+
+  // }
+
 }
 
-// class DataItem {
-//     constructor(public id: number, public name: string) { }
-// }
+class TimerItem {
+  constructor(public upcoming: number, public message: string) { }
+}
