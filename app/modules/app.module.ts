@@ -7,11 +7,13 @@ import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ActivationComponent } from './activation/activation.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimerComponent
+    TimerComponent,
+    ActivationComponent
   ], 
   imports: [
     NativeScriptModule,
