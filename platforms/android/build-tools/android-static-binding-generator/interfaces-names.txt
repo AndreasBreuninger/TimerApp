@@ -1,3 +1,4 @@
+com.telerik.localnotifications.LocalNotificationsPluginListener
 android.support.annotation.Nullable
 android.support.annotation.XmlRes
 android.support.annotation.TransitionRes

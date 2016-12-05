@@ -5,7 +5,7 @@
   "repository": "<fill-your-repository-here>",
   "publisher": "Andreas Breuninger",
   "name": "Andreas Breuninger",
-  "version":"1.0.0.0",
+  "version": "1.0.0.0",
   "nativescript": {
     "id": "io.ngxp.nsngwebstarter",
     "tns-ios": {
