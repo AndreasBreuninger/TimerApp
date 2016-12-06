@@ -1,29 +1,24 @@
 {
+    "main": "main.js",
     "private": false,
     "nativescript": {
-        "id": "org.nativescript.helloworldng"
+        "id": "com.schachtelmeier.timerapp"
     },
-    "name": "tns-template-hello-world-ng",
-    "main": "main.js",
-    "version": "2.3.4",
-    "author": "Telerik <support@telerik.com>",
-    "description": "Nativescript Angular Hello World template",
-    "license": "BSD",
+    "name": "timerapp",
+    "version": "1.0.0",
+    "author": "Andreas Breuninger",
+    "description": "Timer and notification app",
+    "license": "MPL-2.0",
     "keywords": [
-        "telerik",
-        "mobile",
-        "angular",
-        "nativescript",
-        "{N}",
-        "tns",
-        "appbuilder",
-        "template"
+        "timer",
+        "alert",
+        "reminder"
     ],
     "repository": {
         "type": "git",
-        "url": "git://github.com/NativeScript/template-hello-world-ng"
+        "url": "https://github.com/AndreasBreuninger/TimerApp.git"
     },
-    "homepage": "https://github.com/NativeScript/template-hello-world-ng",
+    "homepage": "https://github.com/AndreasBreuninger/TimerApp.git",
     "publisher": "Andreas Breuninger",
     "android": {
         "v8Flags": "--expose_gc"
@@ -44,6 +39,7 @@
     },
     "devDependencies": {
         "zone.js": "~0.6.21",
-        "nativescript-dev-typescript": "^0.3.2"
+        "nativescript-dev-typescript": "^0.3.2",
+        "tns-platform-declarations": "^2.4.1"
     }
 }
