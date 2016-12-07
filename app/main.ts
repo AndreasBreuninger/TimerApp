@@ -8,15 +8,15 @@ import { RouterExtensions } from 'nativescript-angular';
 
 app.on(app.launchEvent, function (args: app.ApplicationEventData) {
     // on launch code
-    console.log(args.android);
+    console.log("launched");
     var launchIntent = args.android;
-
+    
     var extra = launchIntent.getStringExtra("params");
-    console.log(extra);
+    console.log(launchIntent);
 
-    // if (extra) {
-    //     RouterExtensions.prototype.navigateByUrl("launch");
-    // }
+    if (extra) {
+        // RouterExtensions.prototype.navigateByUrl("launch");
+    }
 
 });
 
@@ -30,5 +30,6 @@ app.on(app.uncaughtErrorEvent, function (args: app.ApplicationEventData) {
     }
 });
 
-
+console.log("start bootstrap");
 platformNativeScriptDynamic().bootstrapModule(AppModule);
+console.log("End bootstrap");
