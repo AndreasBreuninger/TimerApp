@@ -34,6 +34,7 @@
     "@angular/platform-browser-dynamic": "2.1.2",
     "@angular/router": "3.1.2",
     "nativescript-angular": "1.1.2",
+    "nativescript-sqlite": "^1.1.2",
     "nativescript-swiss-army-knife": "^1.0.71",
     "nativescript-theme-core": "^0.2.2",
     "reflect-metadata": "~0.1.8",

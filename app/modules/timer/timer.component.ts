@@ -1,37 +1,60 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TimerService } from '../../services/timer.service';
 import { SettingsService } from '../../services/settings.service';
+import { SqliteService } from '../../services/sqlite.service';
 import { RouterExtensions } from 'nativescript-angular';
+var NotificationModelBase =  require('../../models/NotificationModelBase');
 
 var helper = require('../../broadcast/helper/notification-helper');
 var utils = require("utils/utils");
-// import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 @Component({
   selector: 'home',
   templateUrl: 'modules/timer/timer.component.html',
   styleUrls: ['modules/timer/timer.component.css'],
-  providers: [TimerService, SettingsService],
+  providers: [TimerService, SettingsService, SqliteService],
 })
 
 export class TimerComponent {
 
   _timerService: TimerService;
   _settingsService: SettingsService;
+  _sqliteService: SqliteService;
 
-  constructor(public ts: TimerService, public settings: SettingsService, private routerExtensions: RouterExtensions) {
+  constructor(public ts: TimerService, public settings: SettingsService, public sqlite: SqliteService, private routerExtensions: RouterExtensions) {
     this._timerService = ts;
     this._settingsService = settings;
-    // var hasSetting = this._settingsService.hasSetting("test");
+    this._sqliteService = sqlite;
 
-    // console.log(hasSetting);
-    // routerExtensions.navigateByUrl("launch");
+    // this._sqliteService.initialize();
   }
+
 
   public onTap() {
 
-    var ctx = utils.ad.getApplicationContext();
-    helper.setAlarmClock(ctx);
-    // console.log(this._timerService.timerItem.message);
+   var x :INotificationModelBase;
+   x = NotificationModelBase.createModel("Title", "Text", 1);
+
+   console.log(x.getAlarmId());
+
+
+    // var alert = this.createAlert("Title", "Text", 1);
+    // var alarmId = alert.getAlarmId();
+
+    // console.log(alarmId);
+
+    // var ctx = utils.ad.getApplicationContext();
+    // helper.setAlarmClock(ctx);
   }
+
+
+  // private createAlert(title: string, msg: string, upcoming: number) {
+    
+  //   var retVal = new NotificationModelBase(title, msg, upcoming);
+  //   return retVal;
+
+  // }
+
+
 }
