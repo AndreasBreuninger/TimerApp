@@ -15,8 +15,10 @@ var SqliteService = (function () {
         // }
         // catch (e) {
         //     console.log("OPEN DB ERROR", e);
+        var _this = this;
         // }
         (new Sqlite("alarm.db")).then(function (db) {
+            _this._db = db;
             db.execSQL("CREATE TABLE IF NOT EXISTS Notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id number, title TEXT, msg TEXT, upcoming number)").then(function (id) {
                 console.log("CREATED DATABASE");
             }, function (error) {
@@ -24,6 +26,16 @@ var SqliteService = (function () {
             });
         }, function (error) {
             console.log("OPEN DB ERROR", error);
+        });
+    };
+    SqliteService.prototype.insertAlert = function (notification) {
+        // this._db.execSQL("insert into Hello (word) values (?)", ["Hi"], function (err, id) {
+        //     console.log("The new record id is:", id);
+        // });
+    };
+    SqliteService.prototype.getAlertById = function (alarmId) {
+        this._db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
+            console.log("Row of data was: ", row); // Prints [["Field1", "Field2",...]]
         });
     };
     SqliteService = __decorate([

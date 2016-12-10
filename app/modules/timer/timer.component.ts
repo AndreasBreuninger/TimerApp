@@ -3,7 +3,7 @@ import { TimerService } from '../../services/timer.service';
 import { SettingsService } from '../../services/settings.service';
 import { SqliteService } from '../../services/sqlite.service';
 import { RouterExtensions } from 'nativescript-angular';
-var NotificationModelBase =  require('../../models/NotificationModelBase');
+var NotificationModelBase = require('../../models/NotificationModelBase');
 
 var helper = require('../../broadcast/helper/notification-helper');
 var utils = require("utils/utils");
@@ -31,12 +31,16 @@ export class TimerComponent {
   }
 
 
-  public onTap() {
+  public onTap(interval: number, msg: string) {
 
-   var x :INotificationModelBase;
-   x = NotificationModelBase.createModel("Title", "Text", 1);
 
-   console.log(x.getAlarmId());
+    console.log(msg);
+    var x: INotificationModelBase;
+    x = NotificationModelBase.createModel("Title", "Text", 1);
+
+
+
+    console.log(x.getAlarmId());
 
 
     // var alert = this.createAlert("Title", "Text", 1);
@@ -44,13 +48,13 @@ export class TimerComponent {
 
     // console.log(alarmId);
 
-    // var ctx = utils.ad.getApplicationContext();
-    // helper.setAlarmClock(ctx);
+    var ctx = utils.ad.getApplicationContext();
+    helper.setAlarmClock(ctx, x);
   }
 
 
   // private createAlert(title: string, msg: string, upcoming: number) {
-    
+
   //   var retVal = new NotificationModelBase(title, msg, upcoming);
   //   return retVal;
 

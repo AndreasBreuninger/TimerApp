@@ -1,6 +1,18 @@
 android.support.v4.content.WakefulBroadcastReceiver.extend("com.tns.broadcastreceivers.NotificationEventReceiver", {
     onReceive: function (context, intent) {
         var action = intent.getAction();
+
+        var alarmId = -1;
+
+        extras = intent.getExtras();
+        if (extras == null) {
+            alarmId = -1;
+        } else {
+            alarmId = extras.getInt("alarm_id");
+        }
+
+        console.log("alarm id from EventReceiver " + alarmId);
+
         var serviceIntent = null;
         if ("ACTION_START_NOTIFICATION_SERVICE" == action) {
             console.log("onReceive from alarm, starting notification service! thread: " + java.lang.Thread.currentThread().getName());
@@ -11,6 +23,9 @@ android.support.v4.content.WakefulBroadcastReceiver.extend("com.tns.broadcastrec
         }
 
         if (serviceIntent) {
+
+            serviceIntent.putExtra("alarm_id", alarmId);
+
             android.support.v4.content.WakefulBroadcastReceiver.startWakefulService(context, serviceIntent);
         }
     }

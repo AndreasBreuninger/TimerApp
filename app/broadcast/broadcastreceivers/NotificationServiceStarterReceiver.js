@@ -2,6 +2,9 @@ android.content.BroadcastReceiver.extend("com.tns.broadcastreceivers.Notificatio
     onReceive: function() {
         var helper = require("../helper/notification-helper");
         var utils = require("utils/utils");
-        helper.setAlarmClock(utils.ad.getApplicationContext());
+
+        // Todo: recover pending alerts for e.g. system reboot
+        // pass all pending alert id's into setAlarmClock'
+        // helper.setAlarmClock(utils.ad.getApplicationContext());
     }
 });

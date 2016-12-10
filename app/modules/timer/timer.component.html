@@ -10,13 +10,13 @@
     <Button col="1" row="2" text="30" margin="2"></Button>
     <Button col="0" row="3" text="45" margin="2"></Button>
     <TextField col="1" row="3" text="60" margin="2"></TextField>
-    
+
     <TextField colSpan="2" row="4" hint="What's about..?" margin="12,4,2,2"></TextField>
 
     <!--<TextField colSpan="2" row="4" hint="Um was geht's?'"  margin="12,4,2,2" [(ngModel)]="ts.timerItem.message" [text]=ts.timerItem.message></TextField>-->
 
 
     <Button col="0" row="5" text="Reminder" margin="2"></Button>
-    <Button col="1" row="5" text="Alert" (tap)="onTap()" margin="2"></Button>
+    <Button col="1" row="5" text="Alert" (tap)='onTap(1, "Test from ui")' margin="2"></Button>
 
-</GridLayout> 
+</GridLayout>

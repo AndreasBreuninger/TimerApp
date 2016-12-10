@@ -18,15 +18,16 @@ var TimerComponent = (function () {
         this._sqliteService = sqlite;
         this._sqliteService.initialize();
     }
-    TimerComponent.prototype.onTap = function () {
+    TimerComponent.prototype.onTap = function (interval, msg) {
+        console.log(msg);
         var x;
         x = NotificationModelBase.createModel("Title", "Text", 1);
         console.log(x.getAlarmId());
         // var alert = this.createAlert("Title", "Text", 1);
         // var alarmId = alert.getAlarmId();
         // console.log(alarmId);
-        // var ctx = utils.ad.getApplicationContext();
-        // helper.setAlarmClock(ctx);
+        var ctx = utils.ad.getApplicationContext();
+        helper.setAlarmClock(ctx, x);
     };
     TimerComponent = __decorate([
         core_1.Component({
