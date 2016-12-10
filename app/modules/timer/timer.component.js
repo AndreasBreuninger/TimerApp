@@ -16,7 +16,7 @@ var TimerComponent = (function () {
         this._timerService = ts;
         this._settingsService = settings;
         this._sqliteService = sqlite;
-        // this._sqliteService.initialize();
+        this._sqliteService.initialize();
     }
     TimerComponent.prototype.onTap = function () {
         var x;

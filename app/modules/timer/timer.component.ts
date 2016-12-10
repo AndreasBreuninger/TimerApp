@@ -27,7 +27,7 @@ export class TimerComponent {
     this._settingsService = settings;
     this._sqliteService = sqlite;
 
-    // this._sqliteService.initialize();
+    this._sqliteService.initialize();
   }
 
 
