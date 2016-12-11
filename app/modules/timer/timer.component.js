@@ -20,14 +20,15 @@ var TimerComponent = (function () {
     }
     TimerComponent.prototype.onTap = function (interval, msg) {
         console.log(msg);
-        var x;
-        x = NotificationModelBase.createModel("Title", "Text", 1);
-        console.log(x.getAlarmId());
+        var notification;
+        notification = NotificationModelBase.createModel("Title", "Text", 1);
+        console.log(notification.getAlarmId());
         // var alert = this.createAlert("Title", "Text", 1);
         // var alarmId = alert.getAlarmId();
         // console.log(alarmId);
         var ctx = utils.ad.getApplicationContext();
-        helper.setAlarmClock(ctx, x);
+        helper.setAlarmClock(ctx, notification);
+        this.sqlite.insertAlert(notification);
     };
     TimerComponent = __decorate([
         core_1.Component({

@@ -27,6 +27,7 @@ interface INotificationModelBasekConstructor {
 }
 interface INotificationModelBase {
     alarm_id: number;
+       
     getAlarmId();
 }
 
@@ -39,6 +40,9 @@ function createModel(msgBody: string, msgTitle: string, upcoming: number): INoti
 
 class NotificationModelBase implements INotificationModelBase {
     alarm_id: number;
+    msgBody: string;
+    msgTitle: string;
+    upcoming: number;
 
     constructor(msgBody: string, msgTitle: string, upcoming: number) {
         this.alarm_id = Math.floor(Math.random() * 1024) + 1

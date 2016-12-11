@@ -26,11 +26,22 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
 
 });
 
+
+// import { SqliteService } from '../../services/sqlite.service';
+// var SqliteService = require('../../services/sqlite.service');
+
+
 function processStartNotification(alarmId) {
 
     var vibrator = require("./VibratorService");
     var utils = require("utils/utils");
     var context = utils.ad.getApplicationContext();
+
+
+    // var sql = new SqliteService();
+    // var notification = sql.getAlertById(alarmId);
+    // console.log(this.notification);
+
 
     var notificationManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE)
 
@@ -62,7 +73,7 @@ function processStartNotification(alarmId) {
     var ringT = android.media.RingtoneManager.getDefaultUri(4);
     // var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
 
-    setContentIntent.setSound(ringT, 4);        // stream alarm
+    // setContentIntent.setSound(ringT, 4);        // stream alarm
     // setContentIntent.setSound(ringT, 3);        // stream music
     notificationManager.notify(12345, setContentIntent.build());
 
