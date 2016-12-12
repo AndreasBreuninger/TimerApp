@@ -39,8 +39,10 @@ export class SqliteService {
 
     getAlertById(alarmId) {
 
-        this._db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
-            console.log("Row of data was: ", row);
+        (new Sqlite("alarm.db")).then(db => {
+            db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
+                console.log("Row of data was: ", row);
+            });
         });
     }
 

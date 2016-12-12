@@ -28,8 +28,10 @@ var SqliteService = (function () {
         });
     };
     SqliteService.prototype.getAlertById = function (alarmId) {
-        this._db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
-            console.log("Row of data was: ", row);
+        (new Sqlite("alarm.db")).then(function (db) {
+            db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
+                console.log("Row of data was: ", row);
+            });
         });
     };
     SqliteService.prototype.deleteAlert = function (Id) {

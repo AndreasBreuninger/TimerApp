@@ -1,6 +1,6 @@
 android.app.IntentService.extend("com.tns.notifications.NotificationIntentService", {
 
-    onHandleIntent: function (intent) {
+    onHandleIntent: function(intent) {
         // debugger;
         var action = intent.getAction();
         if ("ACTION_START" == action) {
@@ -28,7 +28,7 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
 
 
 // import { SqliteService } from '../../services/sqlite.service';
-// var SqliteService = require('../../services/sqlite.service');
+var SqliteService = require('../../services/sqlite.service');
 
 
 function processStartNotification(alarmId) {
@@ -42,6 +42,7 @@ function processStartNotification(alarmId) {
     // var notification = sql.getAlertById(alarmId);
     // console.log(this.notification);
 
+    SqliteService.SqliteService.prototype.getAlertById(alarmId);
 
     var notificationManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE)
 
