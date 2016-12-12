@@ -1,7 +1,6 @@
 "use strict";
 var core_1 = require('@angular/core');
 var Sqlite = require('nativescript-sqlite');
-// var Sqlite = require("nativescript-sqlite");
 var SqliteService = (function () {
     function SqliteService() {
     }
@@ -28,10 +27,19 @@ var SqliteService = (function () {
         });
     };
     SqliteService.prototype.getAlertById = function (alarmId) {
-        (new Sqlite("alarm.db")).then(function (db) {
-            db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
-                console.log("Row of data was: ", row);
+        //    function readFileAsync(filename:string) {
+        return new Promise(function (resolve, reject) {
+            (new Sqlite("alarm.db")).then(function (db) {
+                db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
+                    resolve(row);
+                    console.log("Row of data was: ", row);
+                });
             });
+            // fs.readFile(filename, (err, result) => {
+            //     if (err) reject(err);
+            //     else resolve(result);
+            // });
+            // });
         });
     };
     SqliteService.prototype.deleteAlert = function (Id) {

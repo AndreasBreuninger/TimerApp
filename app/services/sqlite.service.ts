@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 let Sqlite = require('nativescript-sqlite');
-// var Sqlite = require("nativescript-sqlite");
 
 @Injectable()
 export class SqliteService {
@@ -26,7 +25,6 @@ export class SqliteService {
     }
 
 
-
     insertAlert(notification: NotificationModelBase) {
 
         this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming) values (?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming], function (err, id) {
@@ -37,12 +35,25 @@ export class SqliteService {
         });
     }
 
-    getAlertById(alarmId) {
+    getAlertById(alarmId): Promise<any> {
 
-        (new Sqlite("alarm.db")).then(db => {
-            db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
-                console.log("Row of data was: ", row);
+        //    function readFileAsync(filename:string) {
+        return new Promise((resolve, reject) => {
+
+            (new Sqlite("alarm.db")).then(db => {
+                db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
+                    resolve(row);
+                    
+                    console.log("Row of data was: ", row);
+                });
             });
+
+            // fs.readFile(filename, (err, result) => {
+            //     if (err) reject(err);
+            //     else resolve(result);
+            // });
+
+            // });
         });
     }
 
