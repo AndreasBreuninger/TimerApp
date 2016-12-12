@@ -1,36 +1,19 @@
 "use strict";
 var core_1 = require('@angular/core');
+var sqlite_service_1 = require('./sqlite.service');
 var TimerService = (function () {
-    function TimerService() {
-        this._timerItem = new TimerItem(1, "Hallo Welt");
+    function TimerService(sqlService) {
+        this.sqlService = sqlService;
+        this.sqlService.initialize();
     }
-    Object.defineProperty(TimerService.prototype, "timerItem", {
-        // @Input()
-        get: function () {
-            return this._timerItem;
-        },
-        set: function (v) {
-            this._timerItem = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    TimerService.prototype.createTimer = function (interval, msg) {
-        this._timerItem.message = msg;
-        this._timerItem.upcoming = interval * 60 * 1000;
+    TimerService.prototype.insertAlert = function (notification) {
+        this.sqlService.insertAlert(notification);
     };
     TimerService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [sqlite_service_1.SqliteService])
     ], TimerService);
     return TimerService;
 }());
 exports.TimerService = TimerService;
-var TimerItem = (function () {
-    function TimerItem(upcoming, message) {
-        this.upcoming = upcoming;
-        this.message = message;
-    }
-    return TimerItem;
-}());
 //# sourceMappingURL=timer.service.js.map

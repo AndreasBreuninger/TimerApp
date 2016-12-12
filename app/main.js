@@ -5,12 +5,7 @@ var app_module_1 = require('./modules/app.module');
 var app = require('application');
 app.on(app.launchEvent, function (args) {
     // on launch code
-    console.log("launched");
     var launchIntent = args.android;
-    var extra = launchIntent.getStringExtra("params");
-    console.log(launchIntent);
-    if (extra) {
-    }
 });
 app.on(app.uncaughtErrorEvent, function (args) {
     if (args.android) {
@@ -22,7 +17,5 @@ app.on(app.uncaughtErrorEvent, function (args) {
         console.log("NativeScriptError: " + args.ios);
     }
 });
-console.log("start bootstrap");
 platform_1.platformNativeScriptDynamic().bootstrapModule(app_module_1.AppModule);
-console.log("End bootstrap");
 //# sourceMappingURL=main.js.map

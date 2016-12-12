@@ -1,42 +1,17 @@
 import { Injectable, Input } from '@angular/core';
+import { SqliteService } from './sqlite.service';
 
 @Injectable()
 export class TimerService {
 
-  private _timerItem: TimerItem;
 
-  // @Input()
-  public get timerItem(): TimerItem {
-    return this._timerItem;
-  }
-  public set timerItem(v: TimerItem) {
-    this._timerItem = v;
+  constructor(public sqlService: SqliteService) {
+    this.sqlService.initialize();
   }
 
-
-  constructor() {
-    this._timerItem = new TimerItem(1, "Hallo Welt");
-  }
-
-  public createTimer(interval: number, msg: string) {
-
-    this._timerItem.message = msg;
-    this._timerItem.upcoming = interval * 60 * 1000;
+  insertAlert(notification: NotificationModelBase) {
+    this.sqlService.insertAlert(notification);
 
   }
 
-  // public setMessage(msg: string) {
-
-
-  // }
-
-  // public setInterval(minutes: number) {
-
-
-  // }
-
-}
-
-class TimerItem {
-  constructor(public upcoming: number, public message: string) { }
 }
