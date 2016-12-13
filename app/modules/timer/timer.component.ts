@@ -17,20 +17,47 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 export class TimerComponent {
 
+  // private _twoWayDataBinding: string;
+
+
+
+  // get twoWayDataBinding() {
+  //   return this._twoWayDataBinding;
+  // }
+
+  // set twoWayDataBinding(value: string) {
+  //   this._twoWayDataBinding = value;
+  // }
+
+
+
+  private _notificationModel: NotificationModelBase;
+  public get notificationModel(): NotificationModelBase {
+    return this._notificationModel;
+  }
+  public set notificationModel(v: NotificationModelBase) {
+    this._notificationModel = v;
+  }
+
 
   constructor(public ts: TimerService, public settings: SettingsService, private routerExtensions: RouterExtensions) {
-
+    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
   }
 
 
   public onTap(interval: number, msg: string) {
 
-    var notification: NotificationModelBase;
-    notification = NotificationModelBase.createModel("Title", "Text", 1);
+    console.log(this._notificationModel.msgBody);
+
+    // var notification: NotificationModelBase;
+    // notification = NotificationModelBase.createModel("Title", "Text", 1);
 
     var ctx = utils.ad.getApplicationContext();
-    helper.setAlarmClock(ctx, notification);
+    helper.setAlarmClock(ctx, this._notificationModel);
 
-    this.ts.insertAlert(notification);
+    this.ts.insertAlert(this._notificationModel);
+
+    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
+
   }
 }

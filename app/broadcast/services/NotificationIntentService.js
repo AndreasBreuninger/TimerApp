@@ -58,7 +58,7 @@ function processStartNotification(alarmId) {
 
             setContentIntent = new android.support.v4.app.NotificationCompat.Builder(context)
                 .setContentTitle(notification[3])
-                .setContentText(notification[2] + " " + alarmId)
+                .setContentText(notification[2])
                 .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(notification[3]))
                 .setSmallIcon(android.R.drawable.alert_dark_frame)
                 .setContentIntent(pendingIntent);
@@ -70,7 +70,8 @@ function processStartNotification(alarmId) {
             // mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
             // context.startActivity(mainIntent);
             context.startActivity(mainIntent);
-
+// var x =  new android.os.SystemClock();
+// x.elapsedRealtime();
             vibrator.vibration(500);
 
             var ringT = android.media.RingtoneManager.getDefaultUri(4);
@@ -78,13 +79,13 @@ function processStartNotification(alarmId) {
 
             // setContentIntent.setSound(ringT, 4);        // stream alarm
             // setContentIntent.setSound(ringT, 3);        // stream music
-            notificationManager.notify(12345, setContentIntent.build());
+            notificationManager.notify(alarmId, setContentIntent.build());
 
             // ringTone.play();
 
         })
         .catch(function (err) {
-            console.log('good.json error', err.message); // never called
+            console.log('error', err.message); // never called
         });
 
 
