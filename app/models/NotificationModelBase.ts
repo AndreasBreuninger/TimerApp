@@ -31,7 +31,7 @@ class NotificationModelBase implements INotificationModelBase {
     }
 
 
-    getAlarmId() {
+    getAlarmId(): number {
         return this.alarm_id;
     }
 }

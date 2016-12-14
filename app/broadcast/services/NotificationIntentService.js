@@ -54,7 +54,7 @@ function processStartNotification(alarmId) {
             // android.content.Intent.FLAG_ACTIVITY_NEW_TASK | 
             // android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
             mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-            var pendingIntent = android.app.PendingIntent.getActivity(context, 0, mainIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT)
+            var pendingIntent = android.app.PendingIntent.getActivity(context, 0, mainIntent, android.app.PendingIntent.FLAG_ONE_SHOT)
 
             setContentIntent = new android.support.v4.app.NotificationCompat.Builder(context)
                 .setContentTitle(notification[3])
