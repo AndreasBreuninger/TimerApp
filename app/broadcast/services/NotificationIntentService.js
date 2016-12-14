@@ -69,7 +69,7 @@ function processStartNotification(alarmId) {
 
             // mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
             // context.startActivity(mainIntent);
-            context.startActivity(mainIntent);
+            context.startActivity(mainIntent);  
 // var x =  new android.os.SystemClock();
 // x.elapsedRealtime();
             vibrator.vibration(500);
@@ -77,7 +77,7 @@ function processStartNotification(alarmId) {
             var ringT = android.media.RingtoneManager.getDefaultUri(4);
             // var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
 
-            // setContentIntent.setSound(ringT, 4);        // stream alarm
+            setContentIntent.setSound(ringT, 4);        // stream alarm
             // setContentIntent.setSound(ringT, 3);        // stream music
             notificationManager.notify(alarmId, setContentIntent.build());
 

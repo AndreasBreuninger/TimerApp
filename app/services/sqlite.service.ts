@@ -43,17 +43,10 @@ export class SqliteService {
             (new Sqlite("alarm.db")).then(db => {
                 db.get('SELECT * FROM Notifications WHERE alarm_id=?', [alarmId], function (err, row) {
                     resolve(row);
-                    
+
                     console.log("Row of data was: ", row);
                 });
             });
-
-            // fs.readFile(filename, (err, result) => {
-            //     if (err) reject(err);
-            //     else resolve(result);
-            // });
-
-            // });
         });
     }
 
@@ -62,6 +55,21 @@ export class SqliteService {
             console.log("error: " + err);
         });
 
+
+    }
+
+    getAllAlerts(): Promise<Array<NotificationModelBase>> {
+        return new Promise((resolve, reject) => {
+
+            (new Sqlite("alarm.db")).then(db => {
+                db.all('SELECT * FROM Notifications', function (err, resultSet) {
+                    resolve(resultSet);
+
+                    // console.log("Row of data was: ", resultSet);
+                });
+            });
+
+        });
 
     }
 }

@@ -35,16 +35,21 @@ var SqliteService = (function () {
                     console.log("Row of data was: ", row);
                 });
             });
-            // fs.readFile(filename, (err, result) => {
-            //     if (err) reject(err);
-            //     else resolve(result);
-            // });
-            // });
         });
     };
     SqliteService.prototype.deleteAlert = function (Id) {
         this._db.execSQL("delete from Notifications WHERE id=?", [Id], function (err, id) {
             console.log("error: " + err);
+        });
+    };
+    SqliteService.prototype.getAllAlerts = function () {
+        return new Promise(function (resolve, reject) {
+            (new Sqlite("alarm.db")).then(function (db) {
+                db.all('SELECT * FROM Notifications', function (err, resultSet) {
+                    resolve(resultSet);
+                    // console.log("Row of data was: ", resultSet);
+                });
+            });
         });
     };
     SqliteService = __decorate([

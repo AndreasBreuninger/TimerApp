@@ -33,12 +33,14 @@ function setAlarmClock(context, notificationInfo) {
     // objCalendar.set(java.util.Calendar.MILLISECOND, 0);
 
 
-    // objCalendar.clear();
+    // objCalendar.clear(); 
+    console.log(notificationInfo.upcoming);
+
     objCalendar.set(objCalendar.get(java.util.Calendar.YEAR), 
     objCalendar.get(java.util.Calendar.MONTH), 
     objCalendar.get(java.util.Calendar.DAY_OF_MONTH), 
     objCalendar.get(java.util.Calendar.HOUR_OF_DAY), 
-    objCalendar.get(java.util.Calendar.MINUTE) + 1, 
+    objCalendar.get(java.util.Calendar.MINUTE) + 1,     //notificationInfo.upcoming
     objCalendar.get(java.util.Calendar.SECOND));
 
     // var timeInMillis = notificationInfo.upcoming * 60 * 1000;
