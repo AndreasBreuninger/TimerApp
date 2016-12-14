@@ -23,10 +23,7 @@ var TimerComponent = (function () {
         enumerable: true,
         configurable: true
     });
-    TimerComponent.prototype.onTap = function (interval, msg) {
-        console.log(this._notificationModel.msgBody);
-        // var notification: NotificationModelBase;
-        // notification = NotificationModelBase.createModel("Title", "Text", 1);
+    TimerComponent.prototype.onTap = function () {
         var ctx = utils.ad.getApplicationContext();
         helper.setAlarmClock(ctx, this._notificationModel);
         this.ts.insertAlert(this._notificationModel);

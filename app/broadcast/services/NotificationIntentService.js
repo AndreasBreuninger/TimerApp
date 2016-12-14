@@ -1,7 +1,6 @@
 android.app.IntentService.extend("com.tns.notifications.NotificationIntentService", {
 
     onHandleIntent: function (intent) {
-        // debugger;
         var action = intent.getAction();
         if ("ACTION_START" == action) {
 
@@ -15,8 +14,6 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
             }
 
             console.log("alarm id from IntentService " + alarmId);
-
-
             processStartNotification(alarmId);
 
         }
@@ -27,7 +24,6 @@ android.app.IntentService.extend("com.tns.notifications.NotificationIntentServic
 });
 
 
-// import { SqliteService } from '../../services/sqlite.service';
 var SqliteService = require('../../services/sqlite.service');
 
 
@@ -38,57 +34,42 @@ function processStartNotification(alarmId) {
     var context = utils.ad.getApplicationContext();
 
 
-    // var sql = new SqliteService();
-    // var notification = sql.getAlertById(alarmId);
-    // console.log(this.notification);
-
     SqliteService.SqliteService.prototype.getAlertById(alarmId)
-        .then(function (notification) {
-
+        .then(function (notificationInfo) {
 
             var notificationManager = context.getSystemService(android.content.Context.NOTIFICATION_SERVICE)
-
 
             var mainIntent = new android.content.Intent(context, com.schachtelmeier.MainActivity.class);
 
             // android.content.Intent.FLAG_ACTIVITY_NEW_TASK | 
             // android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
             mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-            var pendingIntent = android.app.PendingIntent.getActivity(context, 0, mainIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT)
+            var pendingIntent = android.app.PendingIntent.getActivity(context, 0, mainIntent, android.app.PendingIntent.FLAG_ONE_SHOT)
 
             setContentIntent = new android.support.v4.app.NotificationCompat.Builder(context)
-                .setContentTitle(notification[3])
-                .setContentText(notification[2])
-                .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(notification[3]))
+                .setContentTitle(notificationInfo[3])
+                .setContentText(notificationInfo[2])
+                .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(notificationInfo[3]))
                 .setSmallIcon(android.R.drawable.alert_dark_frame)
                 .setContentIntent(pendingIntent);
 
-            // var mainIntent = new android.content.Intent(context, com.tns.NativeScriptActivity.class);
-
-            // mainIntent.putExtra("params", "test");
-
-            // mainIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-            // context.startActivity(mainIntent);
-            context.startActivity(mainIntent);  
-// var x =  new android.os.SystemClock();
-// x.elapsedRealtime();
+            context.startActivity(mainIntent);
             vibrator.vibration(500);
 
             var ringT = android.media.RingtoneManager.getDefaultUri(4);
-            // var ringTone = android.media.RingtoneManager.getRingtone(context, ringT);
 
             setContentIntent.setSound(ringT, 4);        // stream alarm
             // setContentIntent.setSound(ringT, 3);        // stream music
-            notificationManager.notify(alarmId, setContentIntent.build());
 
-            // ringTone.play();
+            var notification = setContentIntent.build();
+            notification.flags = android.app.Notification.FLAG_INSISTENT;
+
+            notificationManager.notify(alarmId, notification);
 
         })
         .catch(function (err) {
             console.log('error', err.message); // never called
         });
-
-
 
 }
 

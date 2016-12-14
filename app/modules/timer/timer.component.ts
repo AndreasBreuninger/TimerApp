@@ -45,12 +45,7 @@ export class TimerComponent {
   }
 
 
-  public onTap(interval: number, msg: string) {
-
-    console.log(this._notificationModel.msgBody);
-
-    // var notification: NotificationModelBase;
-    // notification = NotificationModelBase.createModel("Title", "Text", 1);
+  public onTap() {
 
     var ctx = utils.ad.getApplicationContext();
     helper.setAlarmClock(ctx, this._notificationModel);
