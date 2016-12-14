@@ -1,9 +1,5 @@
 var fpsNative = require("fps-meter/fps-native");
-var callbacks = {};
-var idCounter = 0;
-var _minFps = 1000;
-var framesRendered = 0;
-var frameStartTime = 0;
+var callbacks = {}, idCounter = 0, _minFps = 1000, framesRendered = 0, frameStartTime = 0;
 function doFrame(currentTimeMillis) {
     var fps = 0;
     if (frameStartTime > 0) {
@@ -61,7 +57,7 @@ function stop() {
 exports.stop = stop;
 function addCallback(callback) {
     var id = idCounter;
-    callbacks[id] = zonedCallback(callback);
+    callbacks[id] = callback;
     idCounter++;
     return id;
 }

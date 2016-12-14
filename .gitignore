@@ -1,7 +1,7 @@
-node_modules/
-*/bin
-*/obj
-*.user-settings.xml
+hooks
 lib
-bin
-platforms/android/build/
+node_modules
+platforms
+app/**/*.js.map
+app/x-shared
+app/**/*.css

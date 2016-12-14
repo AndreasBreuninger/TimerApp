@@ -2,7 +2,6 @@ var common = require("./editable-text-base-common");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
 var types = require("utils/types");
-var dismissKeyboardTimeoutId;
 var EditableTextBase = (function (_super) {
     __extends(EditableTextBase, _super);
     function EditableTextBase() {
@@ -59,21 +58,12 @@ var EditableTextBase = (function (_super) {
                 if (!owner) {
                     return;
                 }
-                if (hasFocus) {
-                    if (dismissKeyboardTimeoutId) {
-                        clearTimeout(dismissKeyboardTimeoutId);
-                        dismissKeyboardTimeoutId = undefined;
-                    }
-                }
-                else {
+                if (!hasFocus) {
                     if (owner._dirtyTextAccumulator) {
                         owner._onPropertyChangedFromNative(EditableTextBase.textProperty, owner._dirtyTextAccumulator);
                         owner._dirtyTextAccumulator = undefined;
                     }
-                    dismissKeyboardTimeoutId = setTimeout(function () {
-                        owner.dismissSoftInput();
-                        dismissKeyboardTimeoutId = null;
-                    }, 1);
+                    owner.dismissSoftInput();
                 }
             }
         });

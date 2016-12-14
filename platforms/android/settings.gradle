@@ -1,4 +1,4 @@
-rootProject.name = "TimerApp"
+rootProject.name = "timerapp"
 include "asbg"
 project(":asbg").projectDir = file("build-tools/android-static-binding-generator")
 

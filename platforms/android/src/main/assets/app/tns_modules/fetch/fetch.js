@@ -310,8 +310,8 @@
                 resolve(new Response(xhr.responseText, options))
             }
 
-            xhr.onerror = function (error) {
-                reject(new TypeError(['Network request failed:', error.message].join(' ')))
+            xhr.onerror = function () {
+                reject(new TypeError('Network request failed'))
             }
 
             xhr.open(request.method, request.url, true)

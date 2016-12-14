@@ -1133,11 +1133,4 @@ org.ow2.asmdex.structureReader.ISwitchCase
 org.ow2.asmdex.structureWriter.IAnnotationsHolder
 org.ow2.asmdex.util.TextComponent
 org.nativescript.widgets.Async.CompleteCallback
-org.nativescript.widgets.FlexboxLayout.AlignContent
-org.nativescript.widgets.FlexboxLayout.AlignItems
-org.nativescript.widgets.FlexboxLayout.DividerMode
-org.nativescript.widgets.FlexboxLayout.FlexDirection
-org.nativescript.widgets.FlexboxLayout.FlexWrap
-org.nativescript.widgets.FlexboxLayout.JustifyContent
-org.nativescript.widgets.image.Worker.OnImageLoadedListener
 org.nativescript.widgets.TabLayout.TabColorizer

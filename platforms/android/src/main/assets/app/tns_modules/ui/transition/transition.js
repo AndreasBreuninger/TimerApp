@@ -3,6 +3,24 @@ var types_1 = require("utils/types");
 var platform_1 = require("platform");
 var lazy_1 = require("utils/lazy");
 var trace = require("trace");
+var idleGCHandler;
+var scheduledGC = false;
+function scheduleGCOnIdle() {
+    if (!idleGCHandler) {
+        idleGCHandler = new android.os.MessageQueue.IdleHandler({
+            queueIdle: function () {
+                gc();
+                scheduledGC = false;
+                return false;
+            }
+        });
+    }
+    if (!scheduledGC) {
+        android.os.Looper.myQueue().addIdleHandler(idleGCHandler);
+        scheduledGC = true;
+    }
+    return idleGCHandler;
+}
 var slideTransition;
 function ensureSlideTransition() {
     if (!slideTransition) {
@@ -372,6 +390,7 @@ function _completePageRemoval(fragment, isBack) {
         }
     }
     entry.isNavigation = undefined;
+    scheduleGCOnIdle();
 }
 function _removePageNativeViewFromAndroidParent(page) {
     if (page._nativeView && page._nativeView.getParent) {

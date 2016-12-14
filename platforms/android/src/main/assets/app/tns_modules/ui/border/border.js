@@ -1,7 +1,6 @@
 var contentView = require("ui/content-view");
 var viewModule = require("ui/core/view");
 var utils = require("utils/utils");
-var types = require("utils/types");
 var Border = (function (_super) {
     __extends(Border, _super);
     function Border() {
@@ -9,10 +8,7 @@ var Border = (function (_super) {
     }
     Object.defineProperty(Border.prototype, "cornerRadius", {
         get: function () {
-            if (types.isNumber(this.borderRadius)) {
-                return this.borderRadius;
-            }
-            return 0;
+            return this.borderRadius;
         },
         set: function (value) {
             this.borderRadius = value;
@@ -26,11 +22,7 @@ var Border = (function (_super) {
         var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
         var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
         var density = utils.layout.getDisplayDensity();
-        var borderWidth = 0;
-        if (types.isNumber(this.borderWidth)) {
-            borderWidth = this.borderWidth;
-        }
-        var borderSize = (2 * borderWidth) * density;
+        var borderSize = (2 * this.borderWidth) * density;
         var result = viewModule.View.measureChild(this, this.layoutView, utils.layout.makeMeasureSpec(width - borderSize, widthMode), utils.layout.makeMeasureSpec(height - borderSize, heightMode));
         var widthAndState = viewModule.View.resolveSizeAndState(result.measuredWidth + borderSize, width, widthMode, 0);
         var heightAndState = viewModule.View.resolveSizeAndState(result.measuredHeight + borderSize, height, heightMode, 0);
@@ -38,11 +30,7 @@ var Border = (function (_super) {
     };
     Border.prototype.onLayout = function (left, top, right, bottom) {
         var density = utils.layout.getDisplayDensity();
-        var borderWidth = 0;
-        if (types.isNumber(this.borderWidth)) {
-            borderWidth = this.borderWidth;
-        }
-        var borderSize = borderWidth * density;
+        var borderSize = this.borderWidth * density;
         viewModule.View.layoutChild(this, this.layoutView, borderSize, borderSize, right - left - borderSize, bottom - top - borderSize);
     };
     Border = __decorate([
