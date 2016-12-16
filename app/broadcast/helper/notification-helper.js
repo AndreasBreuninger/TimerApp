@@ -53,10 +53,10 @@ function setAlarmClock(context, notificationInfo) {
     if (sdkversion < android.os.Build.VERSION_CODES.KITKAT) {
         alarmManager.set(alarmType, timeInMillis, alarmIntent);
     }
-    else if (android.os.Build.VERSION_CODES.KITKAT <= sdkversion && sdkversion < android.os.Build.VERSION_CODES.M) {
+    else if (android.os.Build.VERSION_CODES.KITKAT <= sdkversion && sdkversion < 23) {  // android.os.Build.VERSION_CODES.M
         alarmManager.setExact(alarmType, timeInMillis, alarmIntent);
     }
-    else if (sdkversion >= android.os.Build.VERSION_CODES.M) {
+    else if (sdkversion >= 23) {    //android.os.Build.VERSION_CODES.M
         alarmManager.setExactAndAllowWhileIdle(alarmType, timeInMillis, alarmIntent);
     }
 

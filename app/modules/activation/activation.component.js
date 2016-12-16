@@ -5,35 +5,31 @@ var NotificationModelBase = require('../../models/NotificationModelBase');
 var helper = require('../../broadcast/helper/notification-helper');
 var utils = require("utils/utils");
 var ActivationComponent = (function () {
+    // public get reminders(): Array<NotificationModelBase> {
+    //   return this._reminders;
+    // }
+    // public set reminders(v: Array<NotificationModelBase>) {
+    //   this._reminders = v;
+    // }
     function ActivationComponent(sqliteService) {
         this.sqliteService = sqliteService;
-        this._reminders = new Array();
+        this.reminders = new Array();
         // this._reminders = [];
+        var that = this;
         this.sqliteService.getAllAlerts().then(function (rows) {
-            var _this = this;
             // this._reminders = rows;
             rows.forEach(function (element) {
-                _this._reminders.push(NotificationModelBase.createModel(element[2], element[3], element[4]));
+                that.reminders.push(NotificationModelBase.createModel(element[2], element[3], element[4]));
             });
-            // this.reminders(rows);
-            console.log(this.reminders());
+            // console.log(this.reminders());
         });
     }
-    Object.defineProperty(ActivationComponent.prototype, "reminders", {
-        get: function () {
-            return this._reminders;
-        },
-        set: function (v) {
-            this._reminders = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     ActivationComponent = __decorate([
         core_1.Component({
             selector: 'activation',
             templateUrl: 'modules/activation/activation.component.html',
             styleUrls: ['modules/activation/activation.component.css'],
+            providers: [sqlite_service_1.SqliteService],
         }), 
         __metadata('design:paramtypes', [sqlite_service_1.SqliteService])
     ], ActivationComponent);

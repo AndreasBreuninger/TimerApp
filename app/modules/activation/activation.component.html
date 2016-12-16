@@ -1,5 +1,11 @@
-<ActionBar title="[Wecker Infos]"></ActionBar>
+<ActionBar title="[Upcoming Reminder]"></ActionBar>
 
-<GridLayout >
-  
-</GridLayout> 
+<GridLayout rows="*">
+    <ListView [items]="reminders">
+        <template let-item="item">
+            <StackLayout [class.third]="third">
+                <Label [text]='item.msgTitle + " " + item.upcoming'></Label>
+            </StackLayout>
+        </template>
+    </ListView>
+</GridLayout>
