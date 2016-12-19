@@ -2,14 +2,15 @@
     <Button text="Upcoming" [nsRouterLink]="['/launch']"></Button>
 </ActionBar>
 <GridLayout columns="*,*" rows="auto, auto, auto, auto, auto, auto, *">
-    <Button col="0" row="0" text="1" margin="2"></Button>
-    <Button col="1" row="0" text="2" margin="2"></Button>
-    <Button col="0" row="1" text="5" margin="2"></Button>
-    <Button col="1" row="1" text="10" margin="2"></Button>
-    <Button col="0" row="2" text="20" margin="2"></Button>
-    <Button col="1" row="2" text="30" margin="2"></Button>
-    <Button col="0" row="3" text="45" margin="2"></Button>
-    <TextField col="1" row="3" text="60" margin="2" [(ngModel)]="_notificationModel.upcoming"></TextField>
+
+    <Button col="0" row="0" text="1" margin="2" (tap)='setMinuteTimer(1)' [class.selected]="isBtn1Selected"></Button>
+    <Button col="1" row="0" text="2" margin="2" (tap)='setMinuteTimer(2)' [class.selected]="isBtn2Selected"></Button>
+    <Button col="0" row="1" text="5" margin="2" (tap)='setMinuteTimer(5)' [class.selected]="isBtn5Selected"></Button>
+    <Button col="1" row="1" text="10" margin="2" (tap)='setMinuteTimer(10)' [class.selected]="isBtn10Selected"></Button>
+    <Button col="0" row="2" text="20" margin="2" (tap)='setMinuteTimer(20)' [class.selected]="isBtn20Selected"></Button>
+    <Button col="1" row="2" text="30" margin="2" (tap)='setMinuteTimer(30)' [class.selected]="isBtn30Selected"></Button>
+    <Button col="0" row="3" text="45" margin="2" (tap)='setMinuteTimer(45)' [class.selected]="isBtn45Selected"></Button>
+    <TextField col="1" row="3" text="60" margin="2" [(ngModel)]="_notificationModel.upcoming" [class.selected]="isBtnCustom5Selected" (tap)='updateSelectedButton(-1)' ></TextField>
 
     <TextField colSpan="2" row="4" hint="What's about..?" [(ngModel)]="_notificationModel.msgBody" autocorrect="false" autocapitalizationType="none"
         margin="12,4,2,2"></TextField>

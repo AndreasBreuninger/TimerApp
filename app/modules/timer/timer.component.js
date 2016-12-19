@@ -11,7 +11,7 @@ var TimerComponent = (function () {
         this.ts = ts;
         this.settings = settings;
         this.routerExtensions = routerExtensions;
-        this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
+        this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
     }
     Object.defineProperty(TimerComponent.prototype, "notificationModel", {
         get: function () {
@@ -27,7 +27,43 @@ var TimerComponent = (function () {
         var ctx = utils.ad.getApplicationContext();
         helper.setAlarmClock(ctx, this._notificationModel);
         this.ts.insertAlert(this._notificationModel);
-        this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
+        this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
+    };
+    TimerComponent.prototype.setMinuteTimer = function (interval) {
+        this._notificationModel.upcoming = interval;
+        this.updateSelectedButton(interval);
+    };
+    TimerComponent.prototype.updateSelectedButton = function (interval) {
+        this.deselectAllButtons();
+        switch (interval) {
+            case 1:
+                this.isBtn1Selected = true;
+                break;
+            case 2:
+                this.isBtn2Selected = true;
+                break;
+            case 5:
+                this.isBtn5Selected = true;
+                break;
+            case 10:
+                this.isBtn10Selected = true;
+                break;
+            case 20:
+                this.isBtn20Selected = true;
+                break;
+            case 30:
+                this.isBtn30Selected = true;
+                break;
+            case 45:
+                this.isBtn45Selected = true;
+                break;
+            default:
+                this.isBtnCustom5Selected = true;
+                break;
+        }
+    };
+    TimerComponent.prototype.deselectAllButtons = function () {
+        this.isBtn1Selected = this.isBtnCustom5Selected = this.isBtn10Selected = this.isBtn20Selected = this.isBtn2Selected = this.isBtn5Selected = this.isBtn30Selected = this.isBtn45Selected = false;
     };
     TimerComponent = __decorate([
         core_1.Component({
@@ -35,6 +71,9 @@ var TimerComponent = (function () {
             templateUrl: 'modules/timer/timer.component.html',
             styleUrls: ['modules/timer/timer.component.css'],
             providers: [timer_service_1.TimerService, settings_service_1.SettingsService],
+            styles: [
+                "\n  .selected {\n    background-color: #4D8EFF;\n  }\n  "
+            ]
         }), 
         __metadata('design:paramtypes', [timer_service_1.TimerService, settings_service_1.SettingsService, nativescript_angular_1.RouterExtensions])
     ], TimerComponent);

@@ -13,22 +13,25 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
   templateUrl: 'modules/timer/timer.component.html',
   styleUrls: ['modules/timer/timer.component.css'],
   providers: [TimerService, SettingsService],
+  styles: [
+    `
+  .selected {
+    background-color: #4D8EFF;
+  }
+  `
+  ]
 })
 
 export class TimerComponent {
 
-  // private _twoWayDataBinding: string;
-
-
-
-  // get twoWayDataBinding() {
-  //   return this._twoWayDataBinding;
-  // }
-
-  // set twoWayDataBinding(value: string) {
-  //   this._twoWayDataBinding = value;
-  // }
-
+  public isBtn1Selected: boolean;
+  public isBtn2Selected: boolean;
+  public isBtn5Selected: boolean;
+  public isBtn10Selected: boolean;
+  public isBtn20Selected: boolean;
+  public isBtn30Selected: boolean;
+  public isBtn45Selected: boolean;
+  public isBtnCustom5Selected: boolean;
 
 
   private _notificationModel: NotificationModelBase;
@@ -39,9 +42,9 @@ export class TimerComponent {
     this._notificationModel = v;
   }
 
-
+  public items: Array<Object>;
   constructor(public ts: TimerService, public settings: SettingsService, private routerExtensions: RouterExtensions) {
-    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
+    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
   }
 
 
@@ -52,7 +55,52 @@ export class TimerComponent {
 
     this.ts.insertAlert(this._notificationModel);
 
-    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 1);
+    this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
+  }
+
+
+  public setMinuteTimer(interval: number) {
+    this._notificationModel.upcoming = interval;
+
+    this.updateSelectedButton(interval);
+  }
+
+  public updateSelectedButton(interval: number) {
+
+    this.deselectAllButtons();
+
+    switch (interval) {
+      case 1:
+        this.isBtn1Selected = true;
+        break;
+      case 2:
+        this.isBtn2Selected = true;
+        break;
+      case 5:
+        this.isBtn5Selected = true;
+        break;
+      case 10:
+        this.isBtn10Selected = true;
+        break;
+      case 20:
+        this.isBtn20Selected = true;
+        break;
+      case 30:
+        this.isBtn30Selected = true;
+        break;
+      case 45:
+        this.isBtn45Selected = true;
+        break;
+      default:
+        this.isBtnCustom5Selected = true;
+        break;
+    }
+  }
+
+  private deselectAllButtons() {
+    this.isBtn1Selected = this.isBtnCustom5Selected = this.isBtn10Selected = this.isBtn20Selected = this.isBtn2Selected = this.isBtn5Selected = this.isBtn30Selected = this.isBtn45Selected = false;
 
   }
+
+
 }
