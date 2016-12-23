@@ -19,7 +19,9 @@ var ActivationComponent = (function () {
         this.sqliteService.getAllAlerts().then(function (rows) {
             // this._reminders = rows;
             rows.forEach(function (element) {
-                that.reminders.push(NotificationModelBase.createModel(element[2], element[3], element[4]));
+                var itm = NotificationModelBase.createModel(element[2], element[3], element[4]);
+                itm.scheduledAt = element[5];
+                that.reminders.push(itm);
             });
             // console.log(this.reminders());
         });

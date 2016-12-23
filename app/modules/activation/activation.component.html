@@ -5,6 +5,7 @@
         <template let-item="item">
             <StackLayout [class.third]="third">
                 <Label [text]='item.msgTitle + " " + item.upcoming'></Label>
+                <Label [text]='item.scheduledAt'></Label>
             </StackLayout>
         </template>
     </ListView>

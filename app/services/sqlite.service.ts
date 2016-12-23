@@ -14,7 +14,7 @@ export class SqliteService {
 
         (new Sqlite("alarm.db")).then(db => {
             this._db = db;
-            db.execSQL("CREATE TABLE IF NOT EXISTS Notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id number, title TEXT, msg TEXT, upcoming number)").then(id => {
+            db.execSQL("CREATE TABLE IF NOT EXISTS Notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id number, title TEXT, msg TEXT, upcoming number, scheduledAt Text)").then(id => {
                 console.log("CREATED DATABASE");
             }, error => {
                 console.log("CREATE TABLE ERROR", error);
@@ -27,7 +27,7 @@ export class SqliteService {
 
     insertAlert(notification: NotificationModelBase) {
 
-        this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming) values (?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming], function (err, id) {
+        this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming, scheduledAt) values (?, ?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming, notification.scheduledAt], function (err, id) {
             console.log("The new record id is:", id);
             if (err !== null) {
                 console.log("error: " + err);

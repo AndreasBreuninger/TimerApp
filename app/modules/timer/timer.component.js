@@ -25,8 +25,11 @@ var TimerComponent = (function () {
     });
     TimerComponent.prototype.onTap = function () {
         var ctx = utils.ad.getApplicationContext();
-        helper.setAlarmClock(ctx, this._notificationModel);
+        var scheduledAt = helper.setAlarmClock(ctx, this._notificationModel);
+        this.notificationModel.scheduledAt = scheduledAt;
         this.ts.insertAlert(this._notificationModel);
+        this.deselectAllButtons();
+        console.log(scheduledAt);
         this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
     };
     TimerComponent.prototype.setMinuteTimer = function (interval) {

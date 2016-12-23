@@ -6,6 +6,7 @@ interface INotificationModelBase {
     msgBody: string;
     msgTitle: string;
     upcoming: number;
+    scheduledAt: Date;
 
     getAlarmId();
 }
@@ -22,6 +23,7 @@ class NotificationModelBase implements INotificationModelBase {
     msgBody: string;
     msgTitle: string;
     upcoming: number;
+    scheduledAt: Date;
 
     constructor(msgBody: string, msgTitle: string, upcoming: number) {
         this.alarm_id = Math.floor(Math.random() * 1024) + 1;

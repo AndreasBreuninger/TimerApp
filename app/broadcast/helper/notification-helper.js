@@ -12,7 +12,7 @@ function getStartPendingIntent(context, alarmId) {
 }
 
 
-function setAlarmClock(context, notificationInfo) {
+function setAlarmClock(context, notificationInfo){
 
     var sdkversion = platformModule.device.sdkVersion;
 
@@ -42,7 +42,11 @@ function setAlarmClock(context, notificationInfo) {
 
     var debugCalendar = java.util.Calendar.getInstance();
     debugCalendar.setTimeInMillis(timeInMillis);
-    console.log("Scheduled: " + debugCalendar.getTime());
+
+    // return the datetime so update database object
+    var retVal = debugCalendar.getTime();
+
+    console.log("Scheduled: " + retVal);
 
     debugCalendar = java.util.Calendar.getInstance();
     debugCalendar.setTimeInMillis(java.lang.System.currentTimeMillis());
@@ -60,8 +64,10 @@ function setAlarmClock(context, notificationInfo) {
         alarmManager.setExactAndAllowWhileIdle(alarmType, timeInMillis, alarmIntent);
     }
 
-    var wakeLock = powerManager.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "notification-helper");
-    wakeLock.acquire(parseInt(notificationInfo.upcoming) * 1000);        // 65 seconds, 5 extra for the wakelock
+    // var wakeLock = powerManager.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "notification-helper");
+    // wakeLock.acquire(parseInt(notificationInfo.upcoming) * 1000);        // 65 seconds, 5 extra for the wakelock
+
+    return retVal;
 }
 
 
