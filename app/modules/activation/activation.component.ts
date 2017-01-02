@@ -15,15 +15,7 @@ var utils = require("utils/utils");
 
 export class ActivationComponent {
 
-
   public reminders: Array<NotificationModelBase>;
-  // public get reminders(): Array<NotificationModelBase> {
-  //   return this._reminders;
-  // }
-  // public set reminders(v: Array<NotificationModelBase>) {
-  //   this._reminders = v;
-  // }
-
 
   constructor(public sqliteService: SqliteService) {
     this.reminders = new Array<NotificationModelBase>();
@@ -40,6 +32,14 @@ export class ActivationComponent {
       // console.log(this.reminders());
 
     });
+  }
+
+
+  public onItemTap(args) {
+    console.log("--> ItemTapped: " + args.index);
+    //ToDo: open dialog
+    
+
   }
 
 }

@@ -1,7 +1,7 @@
 <ActionBar title="[Upcoming Reminder]"></ActionBar>
 
 <GridLayout rows="*">
-    <ListView [items]="reminders">
+    <ListView [items]="reminders"(itemTap)="onItemTap($event)">
         <template let-item="item">
             <StackLayout [class.third]="third">
                 <Label [text]='item.msgTitle + " " + item.upcoming'></Label>

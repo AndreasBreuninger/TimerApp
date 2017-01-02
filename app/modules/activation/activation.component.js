@@ -5,12 +5,6 @@ var NotificationModelBase = require('../../models/NotificationModelBase');
 var helper = require('../../broadcast/helper/notification-helper');
 var utils = require("utils/utils");
 var ActivationComponent = (function () {
-    // public get reminders(): Array<NotificationModelBase> {
-    //   return this._reminders;
-    // }
-    // public set reminders(v: Array<NotificationModelBase>) {
-    //   this._reminders = v;
-    // }
     function ActivationComponent(sqliteService) {
         this.sqliteService = sqliteService;
         this.reminders = new Array();
@@ -26,6 +20,10 @@ var ActivationComponent = (function () {
             // console.log(this.reminders());
         });
     }
+    ActivationComponent.prototype.onItemTap = function (args) {
+        console.log("--> ItemTapped: " + args.index);
+        //ToDo: open dialog
+    };
     ActivationComponent = __decorate([
         core_1.Component({
             selector: 'activation',

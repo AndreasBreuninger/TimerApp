@@ -53,7 +53,7 @@ function processStartNotification(alarmId) {
                 .setSmallIcon(android.R.drawable.alert_dark_frame)
                 .setContentIntent(pendingIntent);
 
-            context.startActivity(mainIntent);
+            // context.startActivity(mainIntent);
             vibrator.vibration(500);
 
             var ringT = android.media.RingtoneManager.getDefaultUri(4);
