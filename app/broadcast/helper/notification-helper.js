@@ -8,7 +8,7 @@ function getStartPendingIntent(context, alarmId) {
     alarmIntent.putExtra("alarm_id", alarmId);
 
 
-    return android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_ONE_SHOT);
+    return android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 }
 
 
@@ -33,7 +33,7 @@ function setAlarmClock(context, notificationInfo) {
         objCalendar.get(java.util.Calendar.MONTH),
         objCalendar.get(java.util.Calendar.DAY_OF_MONTH),
         objCalendar.get(java.util.Calendar.HOUR_OF_DAY),
-        objCalendar.get(java.util.Calendar.MINUTE) + parseInt(notificationInfo.upcoming),     
+        objCalendar.get(java.util.Calendar.MINUTE) + parseInt(notificationInfo.upcoming),
         objCalendar.get(java.util.Calendar.SECOND));
 
 
@@ -42,7 +42,11 @@ function setAlarmClock(context, notificationInfo) {
 
     var debugCalendar = java.util.Calendar.getInstance();
     debugCalendar.setTimeInMillis(timeInMillis);
-    console.log("Scheduled: " + debugCalendar.getTime());
+
+    // return the datetime so update database object
+    var retVal = debugCalendar.getTime();
+
+    console.log("Scheduled: " + retVal);
 
     debugCalendar = java.util.Calendar.getInstance();
     debugCalendar.setTimeInMillis(java.lang.System.currentTimeMillis());
@@ -53,15 +57,17 @@ function setAlarmClock(context, notificationInfo) {
     if (sdkversion < android.os.Build.VERSION_CODES.KITKAT) {
         alarmManager.set(alarmType, timeInMillis, alarmIntent);
     }
-    else if (android.os.Build.VERSION_CODES.KITKAT <= sdkversion && sdkversion < android.os.Build.VERSION_CODES.M) {
+    else if (android.os.Build.VERSION_CODES.KITKAT <= sdkversion && sdkversion < 23) {  // android.os.Build.VERSION_CODES.M
         alarmManager.setExact(alarmType, timeInMillis, alarmIntent);
     }
-    else if (sdkversion >= android.os.Build.VERSION_CODES.M) {
+    else if (sdkversion >= 23) {    //android.os.Build.VERSION_CODES.M
         alarmManager.setExactAndAllowWhileIdle(alarmType, timeInMillis, alarmIntent);
     }
 
-    var wakeLock = powerManager.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "notification-helper");
-    wakeLock.acquire(parseInt(notificationInfo.upcoming) * 1000);        // 65 seconds, 5 extra for the wakelock
+    // var wakeLock = powerManager.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "notification-helper");
+    // wakeLock.acquire(parseInt(notificationInfo.upcoming) * 1000);        // 65 seconds, 5 extra for the wakelock
+
+    return retVal;
 }
 
 
@@ -82,4 +88,20 @@ function setAlarmClock(context, notificationInfo) {
 //         alarmIntent);
 // }
 
+
+function cancelAlarm(context, alarmId) {
+    var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+
+    var alarmIntent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationEventReceiver.class);
+    
+    var pendingIntent = getStartPendingIntent(context, alarmId); 
+    // var pendingIntent = android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+    alarmManager.cancel(pendingIntent);
+
+    console.log("Canceled alarm " + alarmId);
+    //ToDo: delete entry from database
+
+}
+
 module.exports.setAlarmClock = setAlarmClock;
+module.exports.cancelAlarm = cancelAlarm;

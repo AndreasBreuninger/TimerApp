@@ -9,7 +9,7 @@ var SqliteService = (function () {
         var _this = this;
         (new Sqlite("alarm.db")).then(function (db) {
             _this._db = db;
-            db.execSQL("CREATE TABLE IF NOT EXISTS Notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id number, title TEXT, msg TEXT, upcoming number)").then(function (id) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS Notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id number, title TEXT, msg TEXT, upcoming number, scheduledAt Text)").then(function (id) {
                 console.log("CREATED DATABASE");
             }, function (error) {
                 console.log("CREATE TABLE ERROR", error);
@@ -19,8 +19,8 @@ var SqliteService = (function () {
         });
     };
     SqliteService.prototype.insertAlert = function (notification) {
-        this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming) values (?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming], function (err, id) {
-            console.log("The new record id is:", id);
+        this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming, scheduledAt) values (?, ?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming, notification.scheduledAt], function (err, id) {
+            console.log("The new record id is:", id + " " + notification.alarm_id);
             if (err !== null) {
                 console.log("error: " + err);
             }
@@ -38,8 +38,13 @@ var SqliteService = (function () {
         });
     };
     SqliteService.prototype.deleteAlert = function (Id) {
-        this._db.execSQL("delete from Notifications WHERE id=?", [Id], function (err, id) {
-            console.log("error: " + err);
+        return new Promise(function (resolve, reject) {
+            (new Sqlite("alarm.db")).then(function (db) {
+                db.execSQL("delete from Notifications WHERE alarm_id=?", [Id], function (err, id) {
+                    resolve(id);
+                    // console.log("Row of data was: ", resultSet);
+                });
+            });
         });
     };
     SqliteService.prototype.getAllAlerts = function () {
