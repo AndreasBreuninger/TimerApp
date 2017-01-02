@@ -28,7 +28,7 @@ export class SqliteService {
     insertAlert(notification: NotificationModelBase) {
 
         this._db.execSQL("insert into Notifications (alarm_id, title, msg, upcoming, scheduledAt) values (?, ?, ?, ?, ?)", [notification.alarm_id, notification.msgTitle, notification.msgBody, notification.upcoming, notification.scheduledAt], function (err, id) {
-            console.log("The new record id is:", id);
+            console.log("The new record id is:", id + " " + notification.alarm_id);
             if (err !== null) {
                 console.log("error: " + err);
             }
@@ -50,12 +50,19 @@ export class SqliteService {
         });
     }
 
-    deleteAlert(Id) {
-        this._db.execSQL("delete from Notifications WHERE id=?", [Id], function (err, id) {
-            console.log("error: " + err);
+    deleteAlert(Id): Promise<number> {
+
+        return new Promise((resolve, reject) => {
+
+            (new Sqlite("alarm.db")).then(db => {
+                db.execSQL("delete from Notifications WHERE alarm_id=?", [Id], function (err, id) {
+                    resolve(id);
+
+                    // console.log("Row of data was: ", resultSet);
+                });
+            });
+
         });
-
-
     }
 
     getAllAlerts(): Promise<Array<NotificationModelBase>> {

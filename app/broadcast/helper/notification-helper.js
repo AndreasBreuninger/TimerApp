@@ -8,11 +8,11 @@ function getStartPendingIntent(context, alarmId) {
     alarmIntent.putExtra("alarm_id", alarmId);
 
 
-    return android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_ONE_SHOT);
+    return android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
 }
 
 
-function setAlarmClock(context, notificationInfo){
+function setAlarmClock(context, notificationInfo) {
 
     var sdkversion = platformModule.device.sdkVersion;
 
@@ -33,7 +33,7 @@ function setAlarmClock(context, notificationInfo){
         objCalendar.get(java.util.Calendar.MONTH),
         objCalendar.get(java.util.Calendar.DAY_OF_MONTH),
         objCalendar.get(java.util.Calendar.HOUR_OF_DAY),
-        objCalendar.get(java.util.Calendar.MINUTE) + parseInt(notificationInfo.upcoming),     
+        objCalendar.get(java.util.Calendar.MINUTE) + parseInt(notificationInfo.upcoming),
         objCalendar.get(java.util.Calendar.SECOND));
 
 
@@ -88,4 +88,20 @@ function setAlarmClock(context, notificationInfo){
 //         alarmIntent);
 // }
 
+
+function cancelAlarm(context, alarmId) {
+    var alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE);
+
+    var alarmIntent = new android.content.Intent(context, com.tns.broadcastreceivers.NotificationEventReceiver.class);
+    
+    var pendingIntent = getStartPendingIntent(context, alarmId); 
+    // var pendingIntent = android.app.PendingIntent.getBroadcast(context, alarmId, alarmIntent, android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+    alarmManager.cancel(pendingIntent);
+
+    console.log("Canceled alarm " + alarmId);
+    //ToDo: delete entry from database
+
+}
+
 module.exports.setAlarmClock = setAlarmClock;
+module.exports.cancelAlarm = cancelAlarm;

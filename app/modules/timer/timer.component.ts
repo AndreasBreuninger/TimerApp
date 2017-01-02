@@ -57,6 +57,7 @@ export class TimerComponent {
     this.ts.insertAlert(this._notificationModel);
     this.deselectAllButtons();
     console.log(scheduledAt);
+    console.log(this._notificationModel.alarm_id);
     this._notificationModel = NotificationModelBase.createModel("", "Notification Alert", 60);
   }
 
